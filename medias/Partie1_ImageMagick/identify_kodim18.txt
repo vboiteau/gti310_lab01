@@ -1,0 +1,79 @@
+Image: kodim18.bmp
+  Format: BMP3 (Microsoft Windows bitmap image (V3))
+  Class: DirectClass
+  Geometry: 512x768+0+0
+  Resolution: 37.8x37.8
+  Print size: 13.545x20.3175
+  Units: PixelsPerCentimeter
+  Type: TrueColor
+  Endianess: Undefined
+  Colorspace: sRGB
+  Depth: 8-bit
+  Channel depth:
+    red: 8-bit
+    green: 8-bit
+    blue: 8-bit
+  Channel statistics:
+    Pixels: 393216
+    Red:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 80.5698 (0.31596)
+      standard deviation: 47.3467 (0.185673)
+      kurtosis: 2.15856
+      skewness: 1.31428
+    Green:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 71.8574 (0.281794)
+      standard deviation: 37.852 (0.148439)
+      kurtosis: 4.24594
+      skewness: 1.62833
+    Blue:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 49.5295 (0.194233)
+      standard deviation: 30.7754 (0.120688)
+      kurtosis: 9.50758
+      skewness: 2.04171
+  Image statistics:
+    Overall:
+      min: 0 (0)
+      max: 255 (1)
+      mean: 67.3189 (0.263996)
+      standard deviation: 39.2497 (0.15392)
+      kurtosis: 5.6026
+      skewness: 1.88638
+  Rendering intent: Perceptual
+  Gamma: 0.454545
+  Chromaticity:
+    red primary: (0.64,0.33)
+    green primary: (0.3,0.6)
+    blue primary: (0.15,0.06)
+    white point: (0.3127,0.329)
+  Background color: white
+  Border color: srgb(223,223,223)
+  Matte color: grey74
+  Transparent color: black
+  Interlace: None
+  Intensity: Undefined
+  Compose: Over
+  Page geometry: 512x768+0+0
+  Dispose: Undefined
+  Iterations: 0
+  Compression: Undefined
+  Orientation: Undefined
+  Properties:
+    date:create: 2016-01-14T14:06:04-05:00
+    date:modify: 2008-09-07T17:23:18-04:00
+    signature: 3475af71066f3ca8206eb12cfc989ebe9c6e44820a96604e88ae018606e1f7bd
+  Artifacts:
+    filename: kodim18.bmp
+    verbose: true
+  Tainted: False
+  Filesize: 1.18MB
+  Number pixels: 393K
+  Pixels per second: 0B
+  User time: 0.000u
+  Elapsed time: 0:01.000
+  Version: ImageMagick 6.8.9-9 Q16 x86_64 2015-08-06 http://www.imagemagick.org
