@@ -11,7 +11,7 @@ import javax.swing.filechooser.FileFilter;
  */
 public class ImageFileFilter extends FileFilter {
 	/* unique file extension allowed */
-	private static final String EXTENSION = "ras";
+	private static final String EXTENSION = "bmp";
 	
 	@Override
 	public boolean accept(File arg0) {
@@ -30,7 +30,7 @@ public class ImageFileFilter extends FileFilter {
 	@Override
 	public String getDescription() {
 		/* This String will be displayed in the file type combobox */
-		return "Sun Raster File (*.ras)";
+		return "Sun Raster File (*.bmp)";
 	}
 
 }
