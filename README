@@ -1,3 +1,11 @@
 Introduction au Multimedia
 
 Premier lab du cours GTI310
+
+Fonctionnel actuellement
+
+Things to check:
+
+[] Seems to redraw to often the image
+[] Super needy for the cpu
+[] Test with more bmp images
