@@ -20,7 +20,7 @@ import controller.ProxyFactory;
  * The ImageViewer class is a JFrame in which it is possible to view many
  * images at the same time. Each image will be displayed on a tab.
  * 
- * @author François Caron <francois.caron.7@ens.etsmtl.ca>
+ * @author Franï¿½ois Caron <francois.caron.7@ens.etsmtl.ca>
  */
 public class ImageViewer extends JFrame implements ActionListener {
 	/** Generated serial version ID */
@@ -63,6 +63,7 @@ public class ImageViewer extends JFrame implements ActionListener {
 	private void addTab(File file) {
 		/* create a proxy image*/
 		Image image = ProxyFactory.getInstance().build(file);
+		
 		
 		/* 
 		 * if the proxy was created successfuly, add a tab to display the
@@ -163,6 +164,6 @@ public class ImageViewer extends JFrame implements ActionListener {
 		_dialog.setMultiSelectionEnabled(false);
 		
 		/* set the starting directory to the project's dir */
-		_dialog.setCurrentDirectory(new File("."));
+		_dialog.setCurrentDirectory(new File("./medias/Partie2_Viewer"));
 	}
 }
