@@ -14,7 +14,7 @@ import model.Image;
  * check to see if the image is valid, but makes sure that null exceptions
  * are not raised.
  * 
- * @author François Caron <francois.caron.7@ens.etsmtl.ca>
+ * @author Franï¿½ois Caron <francois.caron.7@ens.etsmtl.ca>
  */
 public class ImagePanel extends JPanel {	
 	/** Generated serial version ID */
@@ -41,11 +41,10 @@ public class ImagePanel extends JPanel {
 	 */
 	public void paint(Graphics g) {
 		int x, y;
-		
 		/* make sure image is valid */
 		if(_image != null) {
 			
-			if(_buffer == null)
+			if(_buffer == null)				
 				_buffer = _image.draw();
 			
 			/* make sure received a valid Image to display */
