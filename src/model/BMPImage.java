@@ -23,7 +23,7 @@ public class BMPImage extends Image {
 			width = streamToSize(inputStream);
 			height = streamToSize(inputStream);
 			inputStream.skipBytes(28);
-			int padding = (width * 3) % 4;
+			int padding = 4-((width * 3) % 4);
 			image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 			/**
 			 * On sélectionne les lignes dans le sens inverse puique la hauteur est négatif dans les images bmp.
@@ -38,11 +38,13 @@ public class BMPImage extends Image {
 					 * On ajoute une la couleur du pixel à sa position en x et y.
 					 */
 					image.setRGB(x, y, readColors(inputStream));
+					System.out.print("s1\n");
 				}
 				/**
 				 * On saute le padding en fin de la ligne de l'image.
 				 */
 				inputStream.skipBytes(padding);
+				System.out.print("s2\n");
 			}
 			inputStream.close();
 			System.out.print("me ended\n");
@@ -94,14 +96,14 @@ public class BMPImage extends Image {
 	@Override
 	public int getHeight() {
 		// TODO Auto-generated method stub
-		System.out.print("image height is:"+height+".\n");
+		//System.out.print("image height is:"+height+".\n");
 		return height;
 	}
 
 	@Override
 	public int getWidth() {
 		// TODO Auto-generated method stub
-		System.out.print("image width is:"+width+".\n");
+		//System.out.print("image width is:"+width+".\n");
 		return width;
 	}
 
