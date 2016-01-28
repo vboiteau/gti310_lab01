@@ -25,7 +25,7 @@ public class ImagePanel extends JPanel {
 	
 	/** The Image handle */
 	private Image _image;
-	
+		
 	/**
 	 * Create a new ImagePanel.
 	 * @param image The image handled by the panel
@@ -39,8 +39,11 @@ public class ImagePanel extends JPanel {
 	 *  (non-Javadoc)
 	 * @see java.awt.Component#paint(java.awt.Graphics)
 	 */
-	public void paint(Graphics g) {
+		@Override
+	protected void paintComponent(Graphics g) {
+		super.paintComponent(g);
 		int x, y;
+		
 		/* make sure image is valid */
 		if(_image != null) {
 			

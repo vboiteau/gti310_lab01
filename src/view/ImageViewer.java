@@ -36,6 +36,7 @@ public class ImageViewer extends JFrame implements ActionListener {
 	 *  (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 */
+		
 	public void actionPerformed(ActionEvent arg0) {
 		String action = arg0.getActionCommand();
 		if(action.equals("open")) {
@@ -164,6 +165,6 @@ public class ImageViewer extends JFrame implements ActionListener {
 		_dialog.setMultiSelectionEnabled(false);
 		
 		/* set the starting directory to the project's dir */
-		_dialog.setCurrentDirectory(new File("./medias/Partie2_Viewer"));
+		_dialog.setCurrentDirectory(new File("."));
 	}
 }

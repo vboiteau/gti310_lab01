@@ -29,7 +29,8 @@ public class ProxyImage extends Image {
 	@Override
 	public BufferedImage draw() {
 		/* if the Image is not created, instanciate it */
-		_concrete = BMPFactory.getInstance().build(super._file);
+		if(_concrete == null)
+			_concrete = BMPFactory.getInstance().build(super._file);
 		if (_concrete != null)
 			return _concrete.draw();
 		
