@@ -1,6 +1,10 @@
 
 /**
- * Code de la classe inspiré par le tutoriel à cette addresse: http://codes-sources.commentcamarche.net/source/34684-lire-et-ecrire-un-fichier-bmp
+ * Début du code inspiré de:
+ * Auteur: indiana_jules <http://codes-sources.commentcamarche.net/profile/user/indiana_jules>
+ * Publieur: CodeS-SourceS <http://codes-sources.commentcamarche.net/>
+ * Article: Lire et écrire un fichier bmp
+ * Lien: http://codes-sources.commentcamarche.net/source/34684-lire-et-ecrire-un-fichier-bmp
  */
 
 package model;
@@ -108,3 +112,7 @@ public class BMPImage extends Image {
 	}
 
 }
+
+/**
+*	Fin du code inspiré de http://codes-sources.commentcamarche.net/source/34684-lire-et-ecrire-un-fichier-bmp
+*/
