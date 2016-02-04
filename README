@@ -1,11 +1,11 @@
-Introduction au Multimedia
+#Repository pour les labos de GTI310
 
-Premier lab du cours GTI310
+Les labs sont séparés dans différentes branches
 
-Fonctionnel actuellement
+*   Lab01: lab01
+*   Lab02: master
 
-Things to check:
+Pour chaque feature essayé d'utilisé une branch temporaire, si grosses modifications
+faire un pull request please.
 
-[] Seems to redraw to often the image
-[] Super needy for the cpu
-[x] Test with more bmp images
+Pour les problèmes faire un issue, si nécessaire.
