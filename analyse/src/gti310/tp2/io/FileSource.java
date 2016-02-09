@@ -11,7 +11,7 @@ import java.io.IOException;
  * sequential order to a caller. When the data reaches the end-of-file marker,
  * it will return nothing.
  * 
- * @author François Caron <francois.caron.7@ens.etsmtl.ca>
+ * @author Franï¿½ois Caron <francois.caron.7@ens.etsmtl.ca>
  */
 public class FileSource {
 	
@@ -33,6 +33,7 @@ public class FileSource {
 							new FileInputStream(location)));
 		} catch (FileNotFoundException e) {
 			/* the path is not valid */
+			System.out.println("File path is invalid.");
 			throw e;
 		}
 	}
