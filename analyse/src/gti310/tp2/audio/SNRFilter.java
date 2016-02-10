@@ -1,13 +1,15 @@
 package gti310.tp2.audio;
 
 import java.io.FileNotFoundException;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 import gti310.tp2.io.FileSource;
 
 public class SNRFilter implements AudioFilter {
 	private audioFile original_file = new audioFile();
 	private audioFile[] compare_files;
-	
+	private long original_signal;
 	public SNRFilter(String original, String[] to_analyse) throws FileNotFoundException{
 		original_file.source_path = original;
 		original_file.source_reader = new FileSource(original_file.source_path);
@@ -19,13 +21,28 @@ public class SNRFilter implements AudioFilter {
 			compare_files[i].source_reader = new FileSource(to_analyse[i]);
 			read_header(compare_files[i]);
 		}
-		if(get_signal_noise()){
+		if(read_bloc_by_blocs()){
 			System.out.println("after noise and signal calculation");
 		}
 	}
 	
-	private boolean get_signal_noise(){
-		
+	private boolean read_bloc_by_blocs (){
+		for(int cpt=0; cpt<original_file.cksize;cpt++){
+			byte current_signal_sample = original_file.source_reader.pop(1)[0];
+			//System.out.println("current signal sample of file "+original_file.source_path+": "+current_signal_sample+" / sample: "+original_file.sample);
+			original_signal += Math.pow((double)current_signal_sample,(double)2); 
+			for(int i=0;i<compare_files.length;i++){
+				audioFile aF = compare_files[i];
+				byte current_noise_sample =(byte)(current_signal_sample - aF.source_reader.pop(1)[0]);
+				aF.noise += Math.pow((double)current_noise_sample,(double)2);
+				
+			}
+		}
+		System.out.println(original_signal);
+		for(int i=0;i<compare_files.length;i++){
+			audioFile aF = compare_files[i];
+			System.out.println("noise of "+aF.source_path+" : "+aF.noise);
+		}
 		return true;
 	}
 	
@@ -48,29 +65,33 @@ public class SNRFilter implements AudioFilter {
 		System.out.println("octets par bloc: "+aF.octets_par_bloc);
 		aF.bits_par_echantillon = byteArrayToShort(aF.source_reader.pop(2));
 		System.out.println("bits par echantillon: "+aF.bits_par_echantillon);
-		aF.source_reader.pop(8);
+		aF.ckid = byteArrayToInt(original_file.source_reader.pop(4));
+		System.out.println("chunk id: "+aF.ckid);
+		aF.cksize = byteArrayToInt(original_file.source_reader.pop(4));
+		System.out.println("chunk size: "+aF.cksize);
 	}
 	
 	// code inspiré par le post stackoverflow
-	// http://stackoverflow.com/questions/5399798/byte-array-and-int-conversion-in-java
-	private int byteArrayToInt(byte[] entree){
-		int sortie=0;
-		for(int i=0;i<4;i++){
-			int bond = (4-1-i);
-			sortie += (entree[i] & 0x000000FF) << bond;
-		}
-		return sortie;
-	}
-	// fin du code inspiré
-	
+	// http://stackoverflow.com/questions/1026761/how-to-convert-a-byte-array-to-its-numeric-value-java
 	private short byteArrayToShort(byte[] entree){
-		short sortie=0;
-		for(int i=0;i<2;i++){
-			int bond = (2-1-i);
-			sortie += (entree[i] & 0x000000FF) << bond;
-		}
-		return sortie;
+		ByteBuffer array_entree = ByteBuffer.wrap(entree);
+		array_entree.order( ByteOrder.LITTLE_ENDIAN);
+		return array_entree.getShort();
 	}
+	
+	private int byteArrayToInt(byte[] entree){
+		ByteBuffer array_entree = ByteBuffer.wrap(entree);
+		array_entree.order( ByteOrder.LITTLE_ENDIAN);
+		return array_entree.getInt();
+	}
+	
+	private long byteArrayToLong(byte[] entree){
+		ByteBuffer array_entree = ByteBuffer.wrap(entree);
+		array_entree.order( ByteOrder.LITTLE_ENDIAN);
+		return array_entree.getLong();
+	}
+	
+	// fin du code inspiré
 	
 	@Override
 	public void process() {
@@ -81,7 +102,9 @@ public class SNRFilter implements AudioFilter {
 	class audioFile{
 		public String source_path;
 		public FileSource source_reader;
-		public int Noise, taille_fichier, taille_bloc, frequence_echantillonage, octets_par_seconde;
+		public double SNR;
+		public int ckid, cksize, taille_fichier, taille_bloc, frequence_echantillonage, octets_par_seconde;
 		public short nbr_canaux, octets_par_bloc, bits_par_echantillon;
+		public long noise;
 	}
 }

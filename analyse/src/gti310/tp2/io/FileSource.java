@@ -70,6 +70,7 @@ public class FileSource {
 			/* return what was read */
 			return buffer;
 		} catch (IOException e) {
+			System.out.println("end of file");
 			/* something went wrong, or EOF reached */
 			return null;
 		}
