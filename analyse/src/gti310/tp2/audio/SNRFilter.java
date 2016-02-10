@@ -27,21 +27,24 @@ public class SNRFilter implements AudioFilter {
 	}
 	
 	private boolean read_bloc_by_blocs (){
+		int current_signal_sample =-1;
 		for(int cpt=0; cpt<original_file.cksize;cpt++){
-			byte current_signal_sample = original_file.source_reader.pop(1)[0];
-			//System.out.println("current signal sample of file "+original_file.source_path+": "+current_signal_sample+" / sample: "+original_file.sample);
-			original_signal += Math.pow((double)current_signal_sample,(double)2); 
-			for(int i=0;i<compare_files.length;i++){
-				audioFile aF = compare_files[i];
-				byte current_noise_sample =(byte)(current_signal_sample - aF.source_reader.pop(1)[0]);
-				aF.noise += Math.pow((double)current_noise_sample,(double)2);
-				
+			current_signal_sample = original_file.source_reader.pop(1)[0];
+			if(current_signal_sample != 0){				
+				original_signal += Math.pow(current_signal_sample,2);
+				//System.out.println("current signal sample of file "+original_file.source_path+": "+current_signal_sample+" / sample: "+original_file.sample);
+				//original_signal += current_signal_sample;
+				for(int i=0;i<compare_files.length;i++){
+					audioFile aF = compare_files[i];
+					byte current_noise_sample=(byte)(current_signal_sample - aF.source_reader.pop(1)[0]);
+					aF.noise += Math.pow(current_noise_sample,2);				
+				}
 			}
 		}
-		System.out.println(original_signal);
 		for(int i=0;i<compare_files.length;i++){
 			audioFile aF = compare_files[i];
-			System.out.println("noise of "+aF.source_path+" : "+aF.noise);
+			aF.SNR = 10*Math.log10(original_signal/aF.noise); 
+			System.out.println("SNR of "+aF.source_path+" : "+aF.SNR);
 		}
 		return true;
 	}
