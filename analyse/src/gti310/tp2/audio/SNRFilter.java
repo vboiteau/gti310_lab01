@@ -37,15 +37,21 @@ public class SNRFilter implements AudioFilter {
 				audioFile aF = compare_files[i];
 				byte[] current_noise_sample=aF.source_reader.pop(1);
 				if(current_noise_sample != null){
-					byte current_noise_value=(byte)(current_signal_sample[0] - current_noise_sample[0]);
-					aF.original_signal += Math.pow(current_signal_sample[0], 2);
-					aF.noise += Math.pow(current_noise_value,2);				
+					double current_signal_value=(double)(current_signal_sample[0]+128);
+					double current_noise_sample_value=(double)(current_noise_sample[0]+128);
+					double current_noise_value=current_signal_value-current_noise_sample_value;
+					aF.original_signal += current_signal_value;//Math.pow((double)current_signal_value,(double)2);
+					aF.noise += current_noise_value;//Math.pow((double)current_noise_value,(double)2);
 				}
 			}
 		}
 		for(int i=0;i<compare_files.length;i++){
 			audioFile aF = compare_files[i];
-			aF.SNR = 10*(Math.log10(aF.original_signal/aF.noise)); 
+			System.out.println(aF.original_signal+"   "+aF.noise);
+			double current_noise_ratio=aF.original_signal/aF.noise;
+			current_noise_ratio=Math.pow(current_noise_ratio,2.0);
+			System.out.println(current_noise_ratio);
+			aF.SNR=10*Math.log10(current_noise_ratio);
 		}
 		return true;
 	}
@@ -122,6 +128,6 @@ public class SNRFilter implements AudioFilter {
 		public double SNR;
 		public int ckid, cksize, taille_fichier, taille_bloc, frequence_echantillonage, octets_par_seconde;
 		public short nbr_canaux, octets_par_bloc, bits_par_echantillon;
-		public long noise, original_signal;
+		public double noise, original_signal;
 	}
 }
