@@ -102,7 +102,7 @@ public class Convert16to8Filter implements AudioFilter {
 		pos+=44;
 		byte[] ba_sample=file_reader.pop(2);
 		short s_sample=(short)((ba_sample[1] & 0XFF)<<8|(ba_sample[0] & 0xFF));
-		byte b_sample = (byte)(Math.floor(s_sample/256)+128);
+		byte b_sample = (byte)((s_sample/256)-(s_sample/256%1)+128);
 		byte[] ba_wsample=new byte[1];
 		ba_wsample[0]=b_sample;
 		file_writer.push(ba_wsample);
