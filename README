@@ -3,19 +3,10 @@
 Les labs sont séparés dans différentes branches
 
 *   Lab01: lab01
-*   Lab02: master
+*   Lab02: lab02
+*   Lab03: master
 
 Pour chaque feature essayé d'utilisé une branch temporaire, si grosses modifications
 faire un pull request please.
 
 Pour les problèmes faire un issue, si nécessaire.
-
-Note pour labo 2:
-
-2 instances
-
-convert 16 to 8 audio file
-
-Analyser la qualité des fichiers audios
-
-Manipulation au fure à mesure de la lecture.  
