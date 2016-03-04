@@ -8,29 +8,57 @@ public class Point {
 	
 	private int ID;
 	
-	private Map<Point,Integer> decendents=new HashMap<Point,Integer>();
+	private Map<Point,Integer> descendants=new HashMap<Point,Integer>();
 	
+	/**
+	 * Constructeur minimum d'un point.
+	 * @param ID, id du point
+	 */
 	public Point(int ID){
 		this.ID=ID;
 	}
 	
+	/**
+	 * getter du point
+	 * @return, ID du point
+	 */
 	public int getID(){
 		return this.ID;
 	}
 	
-	public void addDecendent(Point point, int weight){
-		if(decendents.containsKey(point)){
+	/**
+	 * Ajoute un décendant au point.
+	 * @param point. le décendant
+	 * @param weight, le point de la route
+	 */
+	public void addDescendant(Point point, int weight){
+		if(descendants.containsKey(point)){
 			System.out.format("Point %d already contains point %d.",this.ID,point.getID());
 		}
-		decendents.put(point, weight);
+		descendants.put(point, weight);
 	}
 	
+	/**
+	 * Retourne le poids de la route vers un décendant.
+	 * @param point
+	 * @return
+	 */
 	public int getWeight(Point point){
-		return decendents.get(point);
+		return descendants.get(point);
 	}
 	
+	/**
+	 * Getter des descendants
+	 * @return, un Set des décendants.
+	 */
 	public Set<Point> getDecendents(){
-		return decendents.keySet();
+		return descendants.keySet();
 	}
 	
+	public boolean hasDescendant(Point point){
+		if(descendants.containsKey(point)){
+			return true;
+		}
+		return false;
+	}
 }

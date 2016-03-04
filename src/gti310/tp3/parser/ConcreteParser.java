@@ -18,6 +18,10 @@ public class ConcreteParser implements Parser<CityGraph> {
 			int start_id=stringToInt(reader.readLine());
 			cityGraph = new CityGraph(points_count,infinity_weight,start_id);
 			readRoute();
+			if(!cityGraph.checkSize(points_count)){
+				System.out.println("The point count indicated in file doesn't fit with routes number.");
+				System.exit(1);
+			}
 		}catch(Exception e){
 			e.printStackTrace();
 			System.exit(1);

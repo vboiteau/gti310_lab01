@@ -26,8 +26,12 @@ public class Application {
 			System.out.format("Le nombre d'argument du programme doit être 2, le premier étant le fichier d'entrée and le second le fichier de sortie.");
 			System.exit(1);
 		}
-		Parser parser=new ConcreteParser();
-		Object cityGraph=parser.parse(args[0]);
+		long before_parsing=System.nanoTime();
+		Parser<CityGraph> parser=new ConcreteParser();
+		CityGraph cityGraph=parser.parse(args[0]);
+		long after_parsing=System.nanoTime();
+		long duration_parsing=(after_parsing-before_parsing)/1000000;
+		System.out.println("Duration of parsing is "+duration_parsing);
 		if(cityGraph==null){
 			System.out.println("Impossibilité de lire les données dans le fichier.");
 			System.exit(1);
