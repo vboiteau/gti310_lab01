@@ -2,8 +2,6 @@ package gti310.tp3.solver;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
 
 import gti310.tp3.CityGraph;
 import gti310.tp3.RoutesSolution;
@@ -11,13 +9,11 @@ import gti310.tp3.RoutesSolution;
 public class CityGraphSolver implements Solver<CityGraph, RoutesSolution> {
 	private int start;
 	private HashMap<Integer,HashSet<Integer>> blacklist= new HashMap<Integer,HashSet<Integer>>();
-	private int solutionsCounter=0;
 	public RoutesSolution solve(CityGraph graph){
 		start=graph.getStart();
-		RoutesSolution solutions=new RoutesSolution();
+		RoutesSolution solutions=new RoutesSolution(graph.getDepth()+1);
 		int[] route_template=new int[graph.getDepth()+1];
 		get_options(start,route_template,blacklist, graph,solutions, 0);
-		System.out.println(solutionsCounter);
 		return solutions;
 	}
 	
@@ -26,10 +22,9 @@ public class CityGraphSolver implements Solver<CityGraph, RoutesSolution> {
 		depth++;
 		if(graph.checkDepth(depth)==false){
 			if(_s==this.start){
-				solutionsCounter++;
-				printRoutes(currentRoute);
-			}else{
-				printRoutes(currentRoute);
+				if(!solutions.createRoute(currentRoute)){
+					System.out.println("Problem while creating new route.");
+				}
 			}
 		}else{			
 			int[] descendants = graph.getDescendants(_s);
@@ -41,22 +36,9 @@ public class CityGraphSolver implements Solver<CityGraph, RoutesSolution> {
 					_blacklist.get(_s).add(descendants[i]);
 					get_options(descendants[i],currentRoute.clone(),_blacklist,graph,solutions,depth);
 					_blacklist.get(_s).remove(descendants[i]);
-				}else{
-					//printRoutes(currentRoute);
 				}
 			}
 		}
 		depth--;
-	}
-	
-	private void printRoutes(int[] route){
-		System.out.print("Printing new route: ");
-		for(int i=0;i<route.length;i++){
-			System.out.print(route[i]);
-			if(i+1<route.length){
-				System.out.print(", ");
-			}
-		}
-		System.out.println(".\n");
 	}
 }

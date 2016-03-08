@@ -6,7 +6,6 @@ public class CityGraph {
 	private Point[] points;
 	@SuppressWarnings("unused")
 	private int infinityWeight;
-	@SuppressWarnings("unused")
 	private int startID;
 	private int pointsSetted=0;
 	private int numberOfRoutes=0;
