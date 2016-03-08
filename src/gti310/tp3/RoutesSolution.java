@@ -30,7 +30,7 @@ public class RoutesSolution {
 			int[] route=routesIterator.next();
 			prRoute+=route[0];
 			for(int i=1;i<this.route_size;i++){
-				prRoute+="	"+route[i];
+				prRoute+=" "+route[i];
 			}
 			prRoute+="\n";
 		}
