@@ -14,7 +14,18 @@ import gti310.tp3.writer.Writer;
  * @author Fran�ois Caron <francois.caron.7@ens.etsmtl.ca>
  */
 public class Application {
-
+	/**
+     * Code inspiré de http://www.vogella.com/tutorials/JavaPerformance/article.html, Java Performance
+     * Dernière fois consulté est le 7 Mars 2015.
+     */
+	private static final long KYLOBYTE=1024L;
+	public static long bytesToKilobytes(long bytes){
+		return bytes/KYLOBYTE;
+	}
+	/**
+	 * Fin du code insipiré
+	 */
+	
 	/**
 	 * The Application's entry point.
 	 * 
@@ -51,6 +62,20 @@ public class Application {
 		long after_writing=System.nanoTime();
 		long duration_writing=(after_writing-after_solving)/1000000;
 		long duration=(after_writing-before_parsing)/1000000;
-		System.out.println("Times / total: "+duration+" ms, parsing: "+duration_parsing+" ms, solving: "+duration_solving+" ms, writing: "+duration_writing+" ms.");
+		System.out.println("Temps / total: "+duration+" ms, parsing: "+duration_parsing+" ms, solving: "+duration_solving+" ms, writing: "+duration_writing+" ms.");
+		Runtime runtime = Runtime.getRuntime();
+	    /**
+	     * Code inspiré de http://www.vogella.com/tutorials/JavaPerformance/article.html, Java Performance
+	     * Dernière fois consulté est le 7 Mars 2015.
+	     */
+		// Run the garbage collector
+	    runtime.gc();
+	    // Calculate the used memory
+	    long memory = runtime.totalMemory() - runtime.freeMemory();
+	    System.out.println("Utilisation de mémoire en octets: " + memory);
+	    System.out.println("Utilisation de mémoire en kilooctets: "+bytesToKilobytes(memory));
+	    /**
+	     * Fin du code inspiré.
+	     */
 	}
 }
