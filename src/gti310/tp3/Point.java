@@ -31,11 +31,14 @@ public class Point {
 	 * @param point. le décendant
 	 * @param weight, le point de la route
 	 */
-	public void addDescendant(Point point, int weight){
+	public boolean addDescendant(Point point, int weight){
+		boolean valid=true;
 		if(descendants.containsKey(point)){
 			System.out.format("Point %d already contains point %d.",this.ID,point.getID());
+			valid=false;
 		}
 		descendants.put(point, weight);
+		return valid;
 	}
 	
 	/**
@@ -51,7 +54,7 @@ public class Point {
 	 * Getter des descendants
 	 * @return, un Set des décendants.
 	 */
-	public Set<Point> getDecendents(){
+	public Set<Point> getDescendants(){
 		return descendants.keySet();
 	}
 	

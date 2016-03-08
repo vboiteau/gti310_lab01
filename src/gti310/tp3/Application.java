@@ -2,6 +2,8 @@ package gti310.tp3;
 
 import gti310.tp3.parser.ConcreteParser;
 import gti310.tp3.parser.Parser;
+import gti310.tp3.solver.CityGraphSolver;
+import gti310.tp3.solver.Solver;
 
 /**
  * The Application class defines a template method to call the elements to
@@ -31,10 +33,15 @@ public class Application {
 		CityGraph cityGraph=parser.parse(args[0]);
 		long after_parsing=System.nanoTime();
 		long duration_parsing=(after_parsing-before_parsing)/1000000;
-		System.out.println("Duration of parsing is "+duration_parsing);
+		System.out.println("Duration of parsing is "+duration_parsing+" ms");
 		if(cityGraph==null){
 			System.out.println("Impossibilité de lire les données dans le fichier.");
 			System.exit(1);
+		}
+		Solver<CityGraph,RoutesSolution> solver=new CityGraphSolver();
+		RoutesSolution solution=solver.solve(cityGraph);
+		if(solution==null){
+			System.out.println("Impossibilité de trouver des routes.");
 		}
 		System.out.println("Everything went fine.");
 	}

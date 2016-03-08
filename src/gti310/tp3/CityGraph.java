@@ -1,5 +1,7 @@
 package gti310.tp3;
 
+import java.util.Set;
+
 public class CityGraph {
 	private Point[] points;
 	@SuppressWarnings("unused")
@@ -7,10 +9,54 @@ public class CityGraph {
 	@SuppressWarnings("unused")
 	private int startID;
 	private int pointsSetted=0;
+	private int numberOfRoutes=0;
 	public CityGraph(int size, int infinityWeight, int startID){
 		this.points = new Point[size];
 		this.infinityWeight=infinityWeight;
 		this.startID=startID;
+	}
+	
+	/**
+	 * Return the first Point of the 
+	 * @return
+	 */
+	public int getStart(){
+		return this.startID;
+	}
+	
+	/**
+	 * Check if we reach the maximum
+	 * @param depth, la profondeur de la route actuel
+	 * @return, la
+	 */
+	public boolean checkDepth(int depth){
+		boolean valid=false;
+		if(this.numberOfRoutes+1==depth){
+			valid=false;
+		}else{
+			valid=true;
+		}
+		return valid;
+	}
+	
+	public int getDepth(){
+		return this.numberOfRoutes;
+	}
+	
+	/**
+	 * Getter des ids de tous les descendants d'un point
+	 * @param ID, Id du point de base
+	 * @return, return le tableau d'id
+	 */
+	public int[] getDescendants(int ID){
+		Set<Point> descendants=getPoint(ID).getDescendants();
+		int[] descendants_ID = new int[descendants.size()];
+		int i=0;
+		for(Point descendant: descendants){
+			descendants_ID[i]=descendant.getID();
+			i++;
+		}
+		return descendants_ID;
 	}
 	
 	/**
@@ -49,7 +95,10 @@ public class CityGraph {
 		if(_s==null || _e==null){
 			System.out.println("La création d'une route est impossible si un des point est null.");
 		}
-		_s.addDescendant(_e, weight);
+		if(_s.addDescendant(_e, weight))
+		{
+			this.numberOfRoutes++;
+		}
 	}
 	
 	/**
