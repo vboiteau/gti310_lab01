@@ -14,43 +14,43 @@ import java.io.IOException;
  * values read are returned in a three dimension array: each dimension for one
  * of the colors in the RGB color space. The dimensions are all the same size.
  * The same must be true for writting pixel values to a file.
- *  
+ *
  * @author Fran�ois Caron
  */
 public class PPMReaderWriter {
-	/* 
+	/*
 	 * constants used to read & write
 	 */
 	private static final byte LINE_FEED = 10;
 	private static final byte SPACE = 32;
-	
+
 	/*
 	 * tag for PPM images
 	 */
 	private static final String MAGIC_ID = "P6";
-	
+
 	/*
 	 * comment string to add to files written with this application
 	 */
 	private static final String COMMENTS = "# �TS GTI310 codec squeeze light";
-	
+
 	/*
 	 * maximum value in the file
 	 * 1 is implicit: max value realy is 256
 	 * use 255 since it is 0xff (11111111)
 	 */
 	private static final String MAX_GREY = "255";
-	
+
 	/**
 	 * The readPPMFile method reads the magic id of the file and checks if it
 	 * corresponds to the binary PPM magic id. If not, the file is closed and
 	 * the method returns nothing.
-	 * 
+	 *
 	 * The process then anayles the file's header and skips the comments. The
 	 * height and width of the file are used to build the matrix that will hold
 	 * the RGB values of the image. The matrix is a 3D array: each dimension
 	 * holds one dimension of the RGB color space.
-	 * 
+	 *
 	 * @param filename
 	 * @return
 	 */
@@ -59,52 +59,52 @@ public class PPMReaderWriter {
 			DataInputStream in = new DataInputStream(
 					new BufferedInputStream(new FileInputStream(filename)));
 			byte b;
-			
+
 			/* read file format */
 			String magicId = "";
 			while((b = in.readByte()) != LINE_FEED && b  != SPACE) {
 				magicId += (char)b;
 			}
-			
+
 			/* check to make sure we are reading a PPM file */
 			if(!magicId.equals(MAGIC_ID)) {
 				in.close();  // close file handler
 				return null; // nothing to return.
 			}
-			
+
 			/* skip comments */
 			while((b = in.readByte()) == 35)
 				while((b = in.readByte()) != LINE_FEED);
-			
+
 			/*
 			 * at this point, the last read character should be part of the
 			 * image's height
 			 */
-			
+
 			/* read height */
 			String height = "" + (char)b;
 			while((b = in.readByte()) != SPACE) {
 				height += (char)b;
 			}
-			
+
 			/* read width */
 			String width = "";
 			while((b = in.readByte()) != LINE_FEED) {
 				width += (char)b;
 			}
-			
+
 			/* skip the number of colors in the image*/
 			while((b = in.readByte()) != LINE_FEED);
-			
+
 			/* read the image content */
 			int totalBytes = Integer.parseInt(height) * Integer.parseInt(width) * 3;
 			byte[] bytes = new byte[totalBytes];
 			in.read(bytes);
-			
+
 			/* close the file handler */
 			in.close();
-			
-			/* 
+
+			/*
 			 * creates a new array of RGB values with what was read in the file
 			 */
 			int h = Integer.parseInt(height);
@@ -119,10 +119,10 @@ public class PPMReaderWriter {
 					offset += 3;
 				}
 			}
-			
+
 			/* return a 3D array of size height x width */
 			return image;
-			
+
 		} catch (FileNotFoundException e) {
 			/*
 			 * The specified file was not found.
@@ -134,15 +134,15 @@ public class PPMReaderWriter {
 			 */
 			System.err.println(e.getMessage());
 		}
-		
+
 		/*
 		 * An exception was raised: nothing to return...
 		 */
 		return null;
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param filename
 	 * @param image
 	 */
@@ -151,26 +151,26 @@ public class PPMReaderWriter {
 			/* open a new file: overwrite it if it exists */
 			DataOutputStream out = new DataOutputStream(
 					new BufferedOutputStream(new FileOutputStream(filename)));
-			
+
 			/* write magig id */
 			out.writeBytes(MAGIC_ID);
 			out.writeByte((int)(LINE_FEED & 0xff));
-			
+
 			/* write comments */
 			out.writeBytes(COMMENTS);
 			out.writeByte((int)(LINE_FEED & 0xff));
-			
+
 			/* write height & width */
 			out.writeBytes("" + image[0].length);
 			out.writeByte((int)(SPACE & 0xff));
 			out.writeBytes("" + image[0][0].length);
 			out.writeByte((int)(LINE_FEED & 0xff));
-			
+
 			/* write max grey level */
 			out.writeBytes(MAX_GREY);
 			out.writeByte((int)(LINE_FEED & 0xff));
-			
-			/* 
+
+			/*
 			 * store pixel values inside byte vector
 			 */
 			byte[] bytes = new byte[image.length * image[0].length * image[0][0].length];
@@ -183,10 +183,10 @@ public class PPMReaderWriter {
 					offset += 3;
 				}
 			}
-			
+
 			/* write byte vector to file */
 			out.write(bytes);
-			
+
 			/* close the file handler */
 			out.close();
 		} catch (IOException e) {
