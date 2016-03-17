@@ -4,7 +4,8 @@ Les labs sont séparés dans différentes branches
 
 *   Lab01: lab01
 *   Lab02: lab02
-*   Lab03: master
+*   Lab03: lab03
+*   Lab04: master
 
 Pour chaque feature essayé d'utilisé une branch temporaire, si grosses modifications
 faire un pull request please.
