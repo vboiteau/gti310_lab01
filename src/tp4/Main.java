@@ -50,9 +50,15 @@ public class Main {
       int[][][] ppm_matrix = PPMReaderWriter.readPPMFile(in_file_path);
       if(ppm_matrix!=null){
         System.out.println("Able to open \""+args[1]+"\", so continue.");
-        if(args[0].equals("-c")){
+        if(args[0].equals("-c")){   
+        	
+          ConvertImgColor conversion = new ConvertImgColor();
+          conversion.convertRgbYcbcr(ppm_matrix);
+        	
           System.out.println("we want compress");
+          
         }else if(args[0].equals("-x")){
+
           System.out.print("we want decompress");
         }else{
           System.out.println("command type is unknown. Known commands are c:compress and x:decompress.");
