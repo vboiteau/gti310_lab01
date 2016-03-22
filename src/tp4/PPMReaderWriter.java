@@ -54,6 +54,7 @@ public class PPMReaderWriter {
 	 * @param filename
 	 * @return
 	 */
+	@SuppressWarnings("cast")
 	public static int[][][] readPPMFile(String filename) {
 		try {
 			DataInputStream in = new DataInputStream(
@@ -146,6 +147,7 @@ public class PPMReaderWriter {
 	 * @param filename
 	 * @param image
 	 */
+	@SuppressWarnings("cast")
 	public static void writePPMFile(String filename, int[][][] image) {
 		try {
 			/* open a new file: overwrite it if it exists */
