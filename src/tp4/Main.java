@@ -42,21 +42,14 @@ public class Main {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		System.out.println("Squeeze Light Media Codec !");
-    System.out.format("The program was launch with %d.\n",args.length);
+    long start=System.nanoTime();
     if(args.length>=2){
       String in_file_path=args[1];
-      System.out.println("hey");
-      int[][][] ppm_matrix = PPMReaderWriter.readPPMFile(in_file_path);
-      if(ppm_matrix!=null){
-        System.out.println("Able to open \""+args[1]+"\", so continue.");
-        if(args[0].equals("-c")){   
-        	
+      int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
+      if(matrix!=null){
+        if(args[0].equals("-c")){
           ConvertImgColor conversion = new ConvertImgColor();
-          conversion.convertRgbYcbcr(ppm_matrix);
-        	
-          System.out.println("we want compress");
-          
+          matrix = conversion.convertRgbYcbcr(matrix);
         }else if(args[0].equals("-x")){
 
           System.out.print("we want decompress");
@@ -69,5 +62,12 @@ public class Main {
     }else{
       System.out.println("Huston, we got a problem, you need to respect the command lines templates. java src.tp4.Application -c/x [c: compress/x: decompress] <input path> <output path> <compression factor if compress>.");
     }
+    long end = System.nanoTime();
+    long duration = end - start;
+    System.out.println("Le temps d'éxecution du programme est de "+duration+" us ou "+(duration/1000000)+" ms.");
+    Runtime runtime = Runtime.getRuntime();
+    runtime.gc();
+    long memory = runtime.totalMemory() - runtime.freeMemory();
+    System.out.println("L'usage de mémoire par le programme est de "+memory+" octets ou "+(memory/1024L)+" ko ou "+(memory/(1024L*1024L))+" mo.");
 	}
 }
