@@ -57,7 +57,7 @@ public class Main {
             System.exit(1);
           }
           matrix = Convert.convertRgbYcbcr(matrix);
-          matrix = Convert.to_block(matrix, BLOCK_SIZE, true, fq);
+          int[][] c_matrix = Convert.compress_to_zigzag(matrix, BLOCK_SIZE, fq);
           /*for(int i=0; i<matrix[0].length;i++){
             for (int j=0;j < matrix[0][i].length; j++) {
               System.out.print(matrix[0][i][j]+" ");

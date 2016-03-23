@@ -91,14 +91,15 @@ public class Convert {
 
   /**
    * Will do the step needed to convert but first seperate into block.
+   * O(((image_height/8)+1)*((image_width/8)+1)*4096)
    */
-  public static int[][][] to_block(
+  public static int[][] compress_to_zigzag(
     int[][][] matrix,
     int block_size,
-    boolean compression,
     int fq
   ){
     int number_variable_image = matrix.length;
+    int[][] r_matrix=new int[matrix.length][];
     for(
       int x = 0;
       x < number_variable_image;
@@ -109,6 +110,9 @@ public class Convert {
       int image_width = pixels[0].length;
       int number_vertical_blocks = (int) Math.ceil(image_height / block_size);
       int number_horizontal_blocks = (int) Math.ceil(image_width / block_size);
+      r_matrix[x]=new int[
+        number_vertical_blocks*number_horizontal_blocks*block_size*block_size
+      ];
       for(
         int vertical_blocks_count = 0;
         vertical_blocks_count < number_vertical_blocks;
@@ -141,47 +145,36 @@ public class Convert {
               horizontal_offset
             );
           }
-          if(compression){
-            block_matrix = DCT(block_matrix);
-            if(fq<100){
-              if(x==0){
-                block_matrix = Quantization(block_matrix, fq, true);
-              }else{
-                block_matrix = Quantization(block_matrix, fq, false);
-              }
-            }
-          }else{
-            block_matrix = IDCT(block_matrix);
+
+          block_matrix = DCT(block_matrix);
+          if(fq<100){
             if(x==0){
-              block_matrix = Dequantization(block_matrix, fq, true);
+              block_matrix = Quantization(block_matrix, fq, true);
             }else{
-              block_matrix = Dequantization(block_matrix, fq, false);
+              block_matrix = Quantization(block_matrix, fq, false);
             }
           }
-          for(
-            int y = 0;
-            y < block_matrix.length;
-            y++
-          ){
-            System.arraycopy(
-              block_matrix[y],
-              0,
-              matrix[x][y],
-              block_size*horizontal_blocks_count,
-              horizontal_offset
-            );
-          }
+
+          int[] z_block = zigzag(block_matrix);
+
+          System.arraycopy(
+            z_block,
+            0,
+            r_matrix[x],
+            block_size*block_size*horizontal_blocks_count*vertical_blocks_count,
+            z_block.length
+          );
         }
       }
     }
-    return matrix;
+    return r_matrix;
   }
 
   /**
    * transforme une matrix to dct.
    * @params matrix sans dct
    * @return matrix avec dct
-   * http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java,
+   * O(4096) http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java,
    Dernière visite 23 mars 2016.
    */
   public static int[][] DCT(
@@ -232,7 +225,7 @@ public class Convert {
    * transforme une matrix sans dct.
    * @params matrix avec dct
    * @return matrix sans dct
-   * http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java,
+   * O(4096) http://stackoverflow.com/questions/4240490/problems-with-dct-and-idct-algorithm-in-java,
    Dernière visite 23 mars 2016.
    */
   public static int[][] IDCT(
@@ -280,6 +273,7 @@ public class Convert {
    * @params fq, facteur de compression
    * @params y or cbcr, y si vrai cb, cr si faux
    * @return, matrix confirmation
+   * O(64)
    */
   public static int[][] Quantization(
     int[][] matrix,
@@ -316,6 +310,7 @@ public class Convert {
    * @params fq, facteur de compression
    * @params y or cbcr, y si vrai cb, cr si faux
    * @return, matrix confirmation
+   * O(64)
    */
   public static int[][] Dequantization(
     int[][] matrix,
@@ -344,5 +339,42 @@ public class Convert {
       }
     }
     return matrix;
+  }
+
+  public static int[] zigzag(
+    int[][] matrix
+  ){
+    int x_pos = 1;
+    int y_pos = 1;
+    int h_size = matrix[0].length;
+    int v_size = matrix.length;
+    int[] aZ = new int[h_size*v_size];
+    for(
+      int i=0;
+      i < (h_size*v_size);
+      i++
+    ){
+      aZ[i] = matrix[(y_pos-1)][(x_pos-1)];
+      if((y_pos + x_pos) % 2 == 0){
+        if(x_pos < h_size){
+          x_pos++;
+        }else{
+          y_pos += 2;
+        }
+        if(y_pos > 1){
+          y_pos--;
+        }
+      }else{
+        if(y_pos < v_size){
+          y_pos++;
+        }else{
+          x_pos += 2;
+        }
+        if(x_pos > 1){
+          x_pos--;
+        }
+      }
+    }
+    return aZ;
   }
 }

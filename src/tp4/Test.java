@@ -64,6 +64,8 @@ public class Test {
       {0,0,0,0,0,0,0,0}
     };
 
+    int[] aZ = { 944, -44, -132, 42, -60, 90, -80, -28, -78, 0, 0, 17, 64, 0, 48, 40, 26, 0, -22, 0, 0, 0, -35, -37, 0, -120, 0, 51, 0, 0, -57, 51, 0, 55, 0, 0, 0, 0, -64, 0, 0, 0, -55, 56, 0, 109, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+
     int[][] mCDCT = Convert.DCT(mYUV);
 
     for(int i=0; i<mCDCT.length;i++){
@@ -109,5 +111,22 @@ public class Test {
     }
 
     System.out.print("\n");
+
+    System.out.println("Start the test for zigzaging like no tomorrow: ");
+
+    int[] aCZ = Convert.zigzag(mQ);
+
+    System.out.print("\n{ ");
+    for(
+      int i = 0;
+      i < aCZ.length;
+      i++
+    ){
+      System.out.print(aCZ[i]);
+      if(i<(aCZ.length-1)){
+        System.out.print(", ");
+      }
+    }
+    System.out.print(" }\n\n");
   }
 }
