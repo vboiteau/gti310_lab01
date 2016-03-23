@@ -1,6 +1,6 @@
 package src.tp4;
 
-public class ConvertImgColor {
+public class Convert {
 
 
 	/**

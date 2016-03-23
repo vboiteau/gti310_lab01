@@ -48,7 +48,7 @@ public class Main {
       int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
       if(matrix!=null){
         if(args[0].equals("-c")){
-          ConvertImgColor conversion = new ConvertImgColor();
+          Convert conversion = new Convert();
           matrix = conversion.convertRgbYcbcr(matrix);
         }else if(args[0].equals("-x")){
 
