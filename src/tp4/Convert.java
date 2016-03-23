@@ -93,7 +93,7 @@ public class Convert {
    * Will do the step needed to convert but first seperate into block.
    * O(((image_height/8)+1)*((image_width/8)+1)*4096)
    */
-  public static int[][] compress_to_zigzag(
+  public static void compress_to_zigzag(
     int[][][] matrix,
     int block_size,
     int fq
@@ -166,18 +166,25 @@ public class Convert {
           }else{
             last_dc = z_block[0];
           }
+          Entropy.writeDC(z_block[0]);
 
-          System.arraycopy(
-            z_block,
-            0,
-            r_matrix[x],
-            block_size*block_size*horizontal_blocks_count*vertical_blocks_count,
-            z_block.length
-          );
+          int zCnt = 0;
+          for(
+            int i=1;
+            i < z_block.length;
+            i++
+          ){
+            if(z_block[i]==0){
+              zCnt++;
+            }else{
+              Entropy.writeAC(zCnt, z_block[i]);
+            }
+          }
+          Entropy.writeAC(0,0);
+
         }
       }
     }
-    return r_matrix;
   }
 
   /**

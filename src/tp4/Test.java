@@ -152,5 +152,50 @@ public class Test {
       System.out.print(" },\n");
     }
     System.out.print("}\n\n");
+
+    System.out.println("Printing the byte output:");
+
+    Entropy.writeDC(aZ[0]);
+    byte[] output = Entropy.getBitstream();
+    System.out.print("{ ");
+    for(
+      int i = 0;
+      i < output.length;
+      i++
+    ){
+      System.out.print(output[i]);
+      if(i<(output.length-1)){
+        System.out.print(", ");
+      }
+    }
+    System.out.print(" }\n\n\n");
+    int zCnt = 0;
+    for(
+      int i=1;
+      i < aZ.length;
+      i++
+    ){
+      if(aZ[i]==0){
+        zCnt++;
+      }else{
+        Entropy.writeAC(zCnt, aZ[i]);
+      }
+    }
+    Entropy.writeAC(0,0);
+
+    output = Entropy.getBitstream();
+    System.out.print("{ ");
+    for(
+    int i = 0;
+    i < output.length;
+    i++
+    ){
+      System.out.print(output[i]);
+      if(i<(output.length-1)){
+        System.out.print(", ");
+      }
+    }
+    System.out.print(" }\n\n\n");
+
   }
 }

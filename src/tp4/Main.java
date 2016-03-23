@@ -56,8 +56,13 @@ public class Main {
             System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
             System.exit(1);
           }
+          int height = matrix[0].length;
+          int width = matrix[0][0].length;
           matrix = Convert.convertRgbYcbcr(matrix);
-          int[][] c_matrix = Convert.compress_to_zigzag(matrix, BLOCK_SIZE, fq);
+          Convert.compress_to_zigzag(matrix, BLOCK_SIZE, fq);
+
+          SZLReaderWriter.writeSZLFile(args[2], height, width, fq);
+
           /*for(int i=0; i<matrix[0].length;i++){
             for (int j=0;j < matrix[0][i].length; j++) {
               System.out.print(matrix[0][i][j]+" ");
