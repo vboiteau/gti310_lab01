@@ -128,5 +128,29 @@ public class Test {
       }
     }
     System.out.print(" }\n\n");
+
+    int[][] iZ = Convert.izigzag(aZ,8,8);
+
+    System.out.println("{");
+
+    for(
+      int i = 0;
+      i < iZ.length;
+      i++
+    ){
+      System.out.print("\t{ ");
+      for(
+        int j=0;
+        j < iZ[i].length;
+        j++
+      ){
+        System.out.print(iZ[i][j]);
+        if(j<(iZ[i].length-1)){
+          System.out.print(", ");
+        }
+      }
+      System.out.print(" },\n");
+    }
+    System.out.print("}\n\n");
   }
 }

@@ -341,6 +341,14 @@ public class Convert {
     return matrix;
   }
 
+  /**
+   * Transforme une matrice en un tableau de façon zigzag.
+   * @params matrix, matrice à convetir
+   * @return, tableau converti
+   * O(m*n)
+   * code inspiré de la page https://rosettacode.org/wiki/Zig-zag_matrix
+   * dernière visite 23 mars 2016.
+   */
   public static int[] zigzag(
     int[][] matrix
   ){
@@ -376,5 +384,52 @@ public class Convert {
       }
     }
     return aZ;
+  }
+
+  /**
+  * Transforme un tableau en une matrice de façon zigzag.
+  * @params tableau, tableau à convetir
+  * @params h_size, la largeur de la matrice
+  * @params v_size, la hauteur de la matrice
+  * @return, matrice converti
+  * O(m*n)
+  * code inspiré de la page https://rosettacode.org/wiki/Zig-zag_matrix
+  * dernière visite 23 mars 2016.
+  */
+  public static int[][] izigzag(
+    int[] aZ,
+    int h_size,
+    int v_size
+  ){
+    int x_pos = 1;
+    int y_pos = 1;
+    int[][] matrix = new int[v_size][h_size];
+    for(
+      int i=0;
+      i < (h_size*v_size);
+      i++
+    ){
+      matrix[(y_pos-1)][(x_pos-1)]=aZ[i];
+      if((y_pos + x_pos) % 2 == 0){
+        if(x_pos < h_size){
+          x_pos++;
+        }else{
+          y_pos += 2;
+        }
+        if(y_pos > 1){
+          y_pos--;
+        }
+      }else{
+        if(y_pos < v_size){
+          y_pos++;
+        }else{
+          x_pos += 2;
+        }
+        if(x_pos > 1){
+          x_pos--;
+        }
+      }
+    }
+    return matrix;
   }
 }
