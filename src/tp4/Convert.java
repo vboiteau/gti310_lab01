@@ -211,36 +211,30 @@ public class Convert {
     c[0]=1/Math.sqrt(2.0);
     int[][] temp_matrix = new int[matrix.length][matrix[0].length];
     for(
-      int u=0;
-      u < matrix.length;
-      u++
+      int i=0;
+      i < matrix.length;
+      i++
     ){
       for(
-        int v=0;
-        v < matrix[0].length;
-        v++
+        int j=0;
+        j < matrix[0].length;
+        j++
       ){
         double sum = 0.0;
         for(
-          int i = 0;
-          i < matrix.length;
-          i++
+          int u = 0;
+          u < matrix.length;
+          u++
         ){
           for(
-            int j = 0;
-            j < matrix[0].length;
-            j++
+            int v = 0;
+            v < matrix[0].length;
+            v++
           ){
-            sum +=
-              Math.cos(((2*i+1)/(2.0*matrix.length))*u*Math.PI)
-              * Math.cos(((2*j+1)/(2.0*matrix[0].length))*v*Math.PI)
-              * matrix
-              [i]
-              [j];
+            sum += (c[u]*c[v])/4.0*Math.cos(((2*i+1)/(2.0*matrix.length))*u*Math.PI)*Math.cos(((2*j+1)/(2.0*matrix[0].length))*v*Math.PI)*matrix[u][v];
           }
         }
-        sum *= ((c[u]*c[v])/4.0);
-        temp_matrix[u][v] = (int)sum;
+        temp_matrix[i][j] = (int)Math.round(sum);
       }
     }
     return temp_matrix;
