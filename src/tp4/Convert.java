@@ -100,6 +100,7 @@ public class Convert {
   ){
     int number_variable_image = matrix.length;
     int[][] r_matrix=new int[matrix.length][];
+    int last_dc = 0;
     for(
       int x = 0;
       x < number_variable_image;
@@ -156,6 +157,15 @@ public class Convert {
           }
 
           int[] z_block = zigzag(block_matrix);
+
+
+          if( horizontal_blocks_count + vertical_blocks_count > 0){
+            int new_dc = z_block[0] - last_dc;
+            last_dc = z_block[0];
+            z_block[0] = new_dc;
+          }else{
+            last_dc = z_block[0];
+          }
 
           System.arraycopy(
             z_block,
