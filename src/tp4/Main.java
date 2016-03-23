@@ -50,6 +50,7 @@ public class Main {
         if(args[0].equals("-c")){
           Convert conversion = new Convert();
           matrix = conversion.convertRgbYcbcr(matrix);
+          matrix = Convert.to_block(matrix, BLOCK_SIZE, true);
         }else if(args[0].equals("-x")){
 
           System.out.print("we want decompress");
