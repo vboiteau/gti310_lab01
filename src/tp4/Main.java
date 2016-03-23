@@ -48,9 +48,22 @@ public class Main {
       int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
       if(matrix!=null){
         if(args[0].equals("-c")){
-          Convert conversion = new Convert();
-          matrix = conversion.convertRgbYcbcr(matrix);
-          matrix = Convert.to_block(matrix, BLOCK_SIZE, true);
+          int fq=Integer.parseInt(args[3]);
+          if(
+            1>fq &&
+            fq<100
+          ){
+            System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
+            System.exit(1);
+          }
+          matrix = Convert.convertRgbYcbcr(matrix);
+          matrix = Convert.to_block(matrix, BLOCK_SIZE, true, fq);
+          /*for(int i=0; i<matrix[0].length;i++){
+            for (int j=0;j < matrix[0][i].length; j++) {
+              System.out.print(matrix[0][i][j]+" ");
+            }
+            System.out.println(" ");
+          }*/
         }else if(args[0].equals("-x")){
 
           System.out.print("we want decompress");

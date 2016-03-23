@@ -15,7 +15,7 @@ public class Test {
 	public static void main(String[] args) {
     long start=System.nanoTime();
     System.out.println("Le programme est le testeur pour lab04.");
-    TestDCT();
+    Test();
     long end = System.nanoTime();
     long duration = end - start;
     System.out.println("Le temps d'éxecution du programme est de "+duration+" us ou "+(duration/1000000)+" ms.");
@@ -28,45 +28,86 @@ public class Test {
   /**
    * Cette classe est le test de DCT.
    */
-  private static void TestDCT(){
+  private static void Test(){
+    System.out.println("Start the test of DCT and IDCT: ");
+
     int[][] mYUV = {
-      {200,202,189,188,189,175,175,175},
-      {200,203,198,188,189,182,178,175},
-      {203,200,200,195,200,197,185,175},
-      {200,200,200,200,197,187,187,187},
-      {200,205,200,200,195,188,187,175},
-      {200,200,200,200,200,190,187,175},
-      {205,200,199,200,191,187,187,175},
-      {210,200,200,200,188,185,187,186}
+      {70,70,100,70,87,87,150,187},
+      {85,100,96,79,87,150,87,113},
+      {100,85,116,79,70,87,86,196},
+      {136,69,87,200,79,71,117,96},
+      {161,70,87,200,103,71,96,113},
+      {161,123,147,133,113,113,85,161},
+      {146,147,175,100,103,103,163,187},
+      {156,146,189,70,113,161,163,197}
     };
 
     int[][] mDCT = {
-      {1539,65,12,4,1,2,-8,5},
-      {-16,3,2,0,0,-11,-2,3},
-      {-12,6,11,-1,3,0,1,-2},
-      {-8,3,-4,2,-2,-3,-5,-2},
-      {0,-2,7,-5,4,0,-1,-4},
-      {0,-3,-1,0,4,1,-1,0},
-      {3,-2,-3,3,3,-1,-1,3},
-      {-2,5,-2,4,-2,2,-3,0}
+      {944,-40,89,-73,44,32,53,-3},
+      {-135,-59,-26,6,14,-3,-13,-28},
+      {47,-76,66,-3,-108,-78,33,59},
+      {-2,10,-18,0,33,11,-21,1},
+      {-1,-9,-22,8,32,65,-36,-1},
+      {5,-20,28,-46,3,24,-30,24},
+      {6,-20,37,-28,12,-35,33,17},
+      {-5,-23,33,-30,17,-5,-4,20}
+    };
+
+    int[][] mQ ={
+      {59,-4,9,-5,2,1,1,0},
+      {-11,-5,-2,0,1,0,0,-1},
+      {3,-6,4,0,-3,-1,0,1},
+      {0,1,-1,0,1,0,0,0},
+      {0,0,-1,0,0,1,0,0},
+      {0,-1,1,-1,0,0,0,0},
+      {0,0,0,0,0,0,0,0},
+      {0,0,0,0,0,0,0,0}
     };
 
     int[][] mCDCT = Convert.DCT(mYUV);
+
     for(int i=0; i<mCDCT.length;i++){
       System.out.println(" ");
       for (int j=0;j < mCDCT[i].length; j++) {
         System.out.print(mCDCT[i][j]+" ");
       }
     }
+
     System.out.print("\n\n");
 
     int[][] mCIDCT = Convert.IDCT(mDCT);
+
     for(int i=0; i<mCIDCT.length;i++){
       System.out.println(" ");
       for (int j=0;j < mCIDCT[i].length; j++) {
         System.out.print(mCIDCT[i][j]+" ");
       }
     }
+
     System.out.print("\n\n");
+
+    System.out.println("Start the test about quantization:");
+
+    int[][] mCQ = Convert.Quantization(mDCT,50,true);
+
+    for(int i=0; i<mCQ.length;i++){
+      System.out.println(" ");
+      for (int j=0;j < mCQ[i].length; j++) {
+        System.out.print(mCQ[i][j]+" ");
+      }
+    }
+
+    System.out.print("\n\n");
+
+    int[][] mCD = Convert.Dequantization(mQ,50,true);
+
+    for(int i=0; i<mCD.length;i++){
+      for (int j=0;j < mCD[i].length; j++) {
+        System.out.print(mCD[i][j]+" ");
+      }
+      System.out.println(" ");
+    }
+
+    System.out.print("\n");
   }
 }

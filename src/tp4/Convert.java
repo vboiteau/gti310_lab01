@@ -2,6 +2,27 @@ package src.tp4;
 
 public class Convert {
 
+  private static int[][] Qy = {
+    {16,11,10,16,24,40,51,61},
+    {12,12,14,19,26,58,60,55},
+    {14,13,16,24,40,57,69,56},
+    {14,17,22,29,51,87,80,62},
+    {18,22,37,56,68,109,103,77},
+    {24,35,55,64,81,104,113,92},
+    {49,64,78,87,103,121,120,101},
+    {72,92,95,98,112,100,103,99}
+  };
+
+  private static int[][] Qc={
+    {17,18,24,47,99,99,99,99},
+    {18,21,26,66,99,99,99,99},
+    {24,26,56,99,99,99,99,99},
+    {47,66,99,99,99,99,99,99},
+    {99,99,99,99,99,99,99,99},
+    {99,99,99,99,99,99,99,99},
+    {99,99,99,99,99,99,99,99},
+    {99,99,99,99,99,99,99,99},
+  };
 
 	/**
 	 * Convertir RGB a YCBCR
@@ -13,7 +34,7 @@ public class Convert {
 	 *
 	 * Complexite O(n^2)
 	 */
-	public int[][][] convertRgbYcbcr (int[][][] matriceRVB) {
+	public static int[][][] convertRgbYcbcr (int[][][] matriceRVB) {
 
 		int Height = matriceRVB[0].length;
 		int Weight = matriceRVB[0][0].length;
@@ -48,7 +69,7 @@ public class Convert {
 	 */
 
 
-	public int[][][] convertYcbcrRgb (int[][][] matriceYcbcr) {
+	public static int[][][] convertYcbcrRgb (int[][][] matriceYcbcr) {
 
 		int Height = matriceYcbcr[0].length;
 		int Weight = matriceYcbcr[0][0].length;
@@ -74,7 +95,8 @@ public class Convert {
   public static int[][][] to_block(
     int[][][] matrix,
     int block_size,
-    boolean compression
+    boolean compression,
+    int fq
   ){
     int number_variable_image = matrix.length;
     for(
@@ -121,8 +143,20 @@ public class Convert {
           }
           if(compression){
             block_matrix = DCT(block_matrix);
+            if(fq<100){
+              if(x==0){
+                block_matrix = Quantization(block_matrix, fq, true);
+              }else{
+                block_matrix = Quantization(block_matrix, fq, false);
+              }
+            }
           }else{
             block_matrix = IDCT(block_matrix);
+            if(x==0){
+              block_matrix = Dequantization(block_matrix, fq, true);
+            }else{
+              block_matrix = Dequantization(block_matrix, fq, false);
+            }
           }
           for(
             int y = 0;
@@ -238,5 +272,77 @@ public class Convert {
       }
     }
     return temp_matrix;
+  }
+
+  /**
+   * Fonction qui transforme un bloc en un bloc compresser selon le facteur de compression.
+   * @params matrix, la matrice
+   * @params fq, facteur de compression
+   * @params y or cbcr, y si vrai cb, cr si faux
+   * @return, matrix confirmation
+   */
+  public static int[][] Quantization(
+    int[][] matrix,
+    int fq,
+    boolean y
+  ){
+    double a=0.0;
+    if(fq < 50){
+      a = 50.0/(double)fq;
+    }else{
+      a=((200.0-(2.0*(double)fq))/100.0);
+    }
+    for(
+      int i = 0;
+      i < matrix.length;
+      i++
+    ){
+      for(
+        int j = 0;
+        j < matrix[i].length;
+        j++
+      ){
+        int valeur = matrix[i][j];
+        int q = (y ? Qy[i][j] : Qc[i][j]);
+        matrix[i][j] = (int)Math.round(valeur/(a*q));
+      }
+    }
+    return matrix;
+  }
+
+  /**
+   * Fonction qui transforme un bloc en un bloc decompresser selon le facteur de compression.
+   * @params matrix, la matrice
+   * @params fq, facteur de compression
+   * @params y or cbcr, y si vrai cb, cr si faux
+   * @return, matrix confirmation
+   */
+  public static int[][] Dequantization(
+    int[][] matrix,
+    int fq,
+    boolean y
+  ){
+    double a=0.0;
+    if(fq < 50){
+      a = 50.0/(double)fq;
+    }else{
+      a=((200.0-(2.0*(double)fq))/100.0);
+    }
+    for(
+      int i = 0;
+      i < matrix.length;
+      i++
+    ){
+      for(
+        int j = 0;
+        j < matrix[i].length;
+        j++
+      ){
+        int valeur = matrix[i][j];
+        int q = (y ? Qy[i][j] : Qc[i][j]);
+        matrix[i][j] = (int)Math.round(valeur*(a*q));
+      }
+    }
+    return matrix;
   }
 }
