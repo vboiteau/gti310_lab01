@@ -44,10 +44,22 @@ public class Convert {
 		for (int i = 0; i < Height; i++) {
 			for (int j = 0; j < Weight; j++) {
 
-				matriceYcbcr[Main.Y][i][j] = (int) (0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
-				matriceYcbcr[Main.U][i][j] = (int) ((-0.168736)*matriceRVB[Main.R][i][j] + (-0.331264)*matriceRVB[Main.G][i][j] + 0.5*matriceRVB[Main.B][i][j]);
-				matriceYcbcr[Main.V][i][j] = (int) (0.5*matriceRVB [Main.R][i][j] +(-0.418688)*matriceRVB [Main.G][i][j] +(-0.081312)*matriceRVB [Main.B][j][j]);
+				matriceYcbcr[Main.Y][i][j] = (int) Math.round(0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
+				matriceYcbcr[Main.U][i][j] = 128 + (int) Math.round((-0.169)*matriceRVB[Main.R][i][j] + (-0.331)*matriceRVB[Main.G][i][j] + 0.5*matriceRVB[Main.B][i][j]);
+				matriceYcbcr[Main.V][i][j] = 128 + (int) Math.round(0.5*matriceRVB [Main.R][i][j] +(-0.419)*matriceRVB [Main.G][i][j] +(-0.081)*matriceRVB [Main.B][j][j]);
 
+        for(
+        int x=0;
+        x < Main.COLOR_SPACE_SIZE;
+        x++
+        ){
+          if(matriceYcbcr[x][i][j]<0){
+            matriceYcbcr[x][i][j]=0;
+          }
+          if(matriceYcbcr[x][i][j]>255){
+            matriceYcbcr[x][i][j]=255;
+          }
+        }
 			}
 		}
 
@@ -79,10 +91,21 @@ public class Convert {
 		for (int i = 0; i < Height; i++) {
 			for (int j = 0; j < Weight; j++) {
 
-				matriceRGB[Main.R][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.140*matriceYcbcr [Main.V][i][j]);
-				matriceRGB[Main.G][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +(-0.395)*matriceYcbcr [Main.U][i][j] +(-0.581)*matriceYcbcr [Main.V][i][j]);
-				matriceRGB[Main.B][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +2.032*matriceYcbcr [Main.U][i][j]);
-
+				matriceRGB[Main.R][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.400*(matriceYcbcr[Main.V][i][j]-128));
+				matriceRGB[Main.G][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +(-0.343)*(matriceYcbcr[Main.U][i][j]-128) +(-0.711)*(matriceYcbcr [Main.V][i][j]-128));
+				matriceRGB[Main.B][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.765*(matriceYcbcr[Main.U][i][j]-128));
+        for(
+          int x=0;
+          x < Main.COLOR_SPACE_SIZE;
+          x++
+        ){
+          if(matriceRGB[x][i][j]<0){
+            matriceRGB[x][i][j]=0;
+          }
+          if(matriceRGB[x][i][j]>255){
+            matriceRGB[x][i][j]=255;
+          }
+        }
 			}
 		}
 		return matriceRGB;
