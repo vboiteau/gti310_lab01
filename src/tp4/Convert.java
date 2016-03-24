@@ -89,11 +89,78 @@ public class Convert {
 
 	}
 
+  public static int[][][] decompress(
+    int height,
+    int width,
+    int color_space,
+    int block_size,
+    int fq
+  ){
+    int number_vertical_blocks = (int) Math.ceil(height / block_size);
+    int number_horizontal_blocks = (int) Math.ceil(width / block_size);
+    int[][][] matrix=new int[color_space][height][width];
+    int last_dc = 0;
+    for(
+      int x = 0;
+      x < color_space;
+      x++
+    ){
+      for(
+        int vertical_blocks_count = 0;
+        vertical_blocks_count < number_vertical_blocks;
+        vertical_blocks_count++
+      ){
+        for(
+          int horizontal_blocks_count = 0;
+          horizontal_blocks_count < number_horizontal_blocks;
+          horizontal_blocks_count++
+        ){
+          int vertical_offset = block_size;
+          if((block_size * vertical_blocks_count)>height){
+            vertical_offset = height % block_size;
+          }
+          int horizontal_offset = block_size;
+          if((block_size * horizontal_blocks_count)>width){
+            horizontal_offset = width % block_size;
+          }
+          int[] aBlock = get_block_array(vertical_offset, horizontal_offset);
+          if( horizontal_blocks_count + vertical_blocks_count > 0){
+            int new_dc = aBlock[0] + last_dc;
+            aBlock[0] = new_dc;
+            last_dc = aBlock[0];
+          }else{
+            last_dc = aBlock[0];
+          }
+          int[][] block = izigzag(aBlock,vertical_offset,horizontal_offset);
+          if(fq<100){
+            if(x==0){
+              block = Dequantization(block, fq, true);
+            }else{
+              block = Dequantization(block, fq, false);
+            }
+          }
+          block = IDCT(block);
+          for(
+            int y = 0;
+            y < vertical_offset;
+            y++
+          ){
+            int y_pos = y+(vertical_blocks_count*block_size);
+            int x_pos = horizontal_blocks_count*block_size;
+            //System.out.println(y_pos+" "+x_pos);
+            System.arraycopy(block[y],0,matrix[x][y_pos],x_pos,horizontal_offset);
+          }
+        }
+      }
+    }
+    return matrix;
+  }
+
   /**
    * Will do the step needed to convert but first seperate into block.
    * O(((image_height/8)+1)*((image_width/8)+1)*4096)
    */
-  public static void compress_to_zigzag(
+  public static void compress(
     int[][][] matrix,
     int block_size,
     int fq
@@ -135,11 +202,12 @@ public class Convert {
           int[][] block_matrix= new int[vertical_offset][horizontal_offset];
           for(
             int y = 0;
-            y < block_matrix.length;
+            y < vertical_offset;
             y++
           ){
+            int y_pos = y + (vertical_blocks_count*block_size);
             System.arraycopy(
-              matrix[x][y],
+              matrix[x][y_pos],
               block_size*horizontal_blocks_count,
               block_matrix[y],
               0,
@@ -448,5 +516,40 @@ public class Convert {
       }
     }
     return matrix;
+  }
+
+  public static int[] get_block_array(int v_size, int h_size){
+    int[] block=new int[(v_size*h_size)];
+    int pos = 0;
+    block[pos] = Entropy.readDC();
+    pos++;
+    int[] AC;
+    int znb = 0;
+    while((AC = Entropy.readAC())!=null){
+      if(AC[0]==0&&AC[1]==0){
+        break;
+      }
+      int zd = AC[0] - znb;
+      znb += zd;
+      for(
+        int i=0;
+        i < zd;
+        i++
+      ){
+        block[pos] = 0;
+        pos++;
+      }
+      block[pos] = AC[1];
+      pos++;
+    }
+    for(
+      int i=0;
+      i < (pos-(v_size*h_size));
+      i++
+    ){
+      block[pos] = 0;
+      pos++;
+    }
+    return block;
   }
 }

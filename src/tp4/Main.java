@@ -44,42 +44,52 @@ public class Main {
 	public static void main(String[] args) {
     long start=System.nanoTime();
     if(args.length>=2){
-      String in_file_path=args[1];
-      int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
-      if(matrix!=null){
-        if(args[0].equals("-c")){
-          int fq=Integer.parseInt(args[3]);
-          if(
-            1>fq &&
-            fq<100
-          ){
-            System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
-            System.exit(1);
-          }
-          int height = matrix[0].length;
-          int width = matrix[0][0].length;
-          matrix = Convert.convertRgbYcbcr(matrix);
-          Convert.compress_to_zigzag(matrix, BLOCK_SIZE, fq);
-
-          SZLReaderWriter.writeSZLFile(args[2], height, width, fq);
-
-          /*for(int i=0; i<matrix[0].length;i++){
-            for (int j=0;j < matrix[0][i].length; j++) {
-              System.out.print(matrix[0][i][j]+" ");
+        if(args.length>2){
+          String in_file_path=args[1];
+          int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
+          if(matrix!=null){
+            int fq=Integer.parseInt(args[0]);
+            if(
+              1>fq &&
+              fq<100
+            ){
+              System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
+              System.exit(1);
             }
-            System.out.println(" ");
-          }*/
-        }else if(args[0].equals("-x")){
+            int height = matrix[0].length;
+            int width = matrix[0][0].length;
+            matrix = Convert.convertRgbYcbcr(matrix);
+            Convert.compress(matrix, BLOCK_SIZE, fq);
 
-          System.out.print("we want decompress");
+            SZLReaderWriter.writeSZLFile(args[2], height, width, fq);
         }else{
-          System.out.println("command type is unknown. Known commands are c:compress and x:decompress.");
+          System.out.println("Input file can't be open.");
         }
       }else{
-        System.out.println("Input file can't be open.");
+        String in_file_path=args[0];
+        int[] header=SZLReaderWriter.readSZLFile(in_file_path);
+        if(header == null){
+          System.out.println("Le fichier SZL est invalide.");
+          System.exit(1);
+        }
+        if(header.length!=4){
+          System.out.println("L'entête du fichier SZL est invalid.");
+          System.exit(1);
+        }
+        int height = header[0];
+        int width = header[1];
+        if(header[2] != COLOR_SPACE_SIZE){
+          System.out.println("La taille du color space du fichier SZL n'est pas comme celui attendu.");
+          System.exit(1);
+        }
+        int fq=header[3];
+        int[][][] matrix = Convert.decompress(height, width, COLOR_SPACE_SIZE, BLOCK_SIZE, fq);
+        matrix = Convert.convertYcbcrRgb(matrix);
+        PPMReaderWriter.writePPMFile(args[1],matrix);
       }
     }else{
-      System.out.println("Huston, we got a problem, you need to respect the command lines templates. java src.tp4.Application -c/x [c: compress/x: decompress] <input path> <output path> <compression factor if compress>.");
+      System.out.println("La commande ne respecte aucun format attendu.\ncomression: 'java src.tp4.Main <facteur de qualite> <chemin image entree> <chemin fichier compressé>'\ndécompression: 'java src.tp4.Main <chemin fichier compressé> <chemin image sortie>'");
+      System.exit(1);
     }
     long end = System.nanoTime();
     long duration = end - start;
