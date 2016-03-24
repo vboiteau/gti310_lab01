@@ -44,9 +44,9 @@ public class Convert {
 		for (int i = 0; i < Height; i++) {
 			for (int j = 0; j < Weight; j++) {
 
-				matriceYcbcr[Main.Y][i][j] =(int)Math.round(0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
-				matriceYcbcr[Main.U][i][j] =(int)Math.round(-0.168736*matriceRVB [Main.R][i][j] + -0.331264*matriceRVB [Main.G][i][j] +0.5*matriceRVB [Main.B][i][j]);
-				matriceYcbcr[Main.V][i][j] =(int)Math.round(0.5*matriceRVB [Main.R][i][j] +-0.418688*matriceRVB [Main.G][i][j] +-0.081312*matriceRVB [Main.B][j][j]);
+				matriceYcbcr[Main.Y][i][j] = (int) (0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
+				matriceYcbcr[Main.U][i][j] = (int) ((-0.168736)*matriceRVB[Main.R][i][j] + (-0.331264)*matriceRVB[Main.G][i][j] + 0.5*matriceRVB[Main.B][i][j]);
+				matriceYcbcr[Main.V][i][j] = (int) (0.5*matriceRVB [Main.R][i][j] +(-0.418688)*matriceRVB [Main.G][i][j] +(-0.081312)*matriceRVB [Main.B][j][j]);
 
 			}
 		}
@@ -79,9 +79,9 @@ public class Convert {
 		for (int i = 0; i < Height; i++) {
 			for (int j = 0; j < Weight; j++) {
 
-				matriceRGB[Main.R][i][j] =(int)Math.round(1*matriceYcbcr [Main.Y][i][j] +0*matriceYcbcr [Main.U][i][j] +1.402*matriceYcbcr [Main.V][i][j]);
-				matriceRGB[Main.G][i][j] =(int)Math.round(1*matriceYcbcr [Main.Y][i][j] +-0.344136*matriceYcbcr [Main.U][i][j] +0.714136*matriceYcbcr [Main.V][i][j]);
-				matriceRGB[Main.B][i][j] =(int)Math.round(1*matriceYcbcr [Main.Y][i][j] +1.772*matriceYcbcr [Main.U][i][j] +0*matriceYcbcr [Main.V][j][j]);
+				matriceRGB[Main.R][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.140*matriceYcbcr [Main.V][i][j]);
+				matriceRGB[Main.G][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +(-0.395)*matriceYcbcr [Main.U][i][j] +(-0.581)*matriceYcbcr [Main.V][i][j]);
+				matriceRGB[Main.B][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +2.032*matriceYcbcr [Main.U][i][j]);
 
 			}
 		}
