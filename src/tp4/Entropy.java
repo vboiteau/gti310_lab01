@@ -281,14 +281,13 @@ public class Entropy {
 		if(writingBuffer == null) {
 			flushBuffers();
 		}
-
 		/* write bits in buffer */
 		for(int i = length; i > 0; i--) {
 			int bit = ((bits >> (i - 1)) & 0x01) << (bitsLeftInByte - 1);
 			writingBuffer[currentByteInBuffer] |= bit;
 
+      decrementBitsToWrite();
 			/* on less space in current byte to write bits */
-			decrementBitsToWrite();
 		}
 	}
 
