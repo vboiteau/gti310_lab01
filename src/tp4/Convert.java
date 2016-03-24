@@ -89,6 +89,17 @@ public class Convert {
 
 	}
 
+  /**
+   * Décompresse le fichier comprésser à une matrice.
+   * @params height, hauteur de l'image
+   * @params width, largeur de l'image
+   * @params color_space, le nombre de type de couleurs
+   * @params block_size, la taille des bloc à traiter
+   * @params fq, facteur de qualité
+   * @return int[][][], la matrix de sortie
+   *
+   * O(((image_height/8)+1)*((image_width/8)+1)*4096)
+   */
   public static int[][][] decompress(
     int height,
     int width,
@@ -159,6 +170,9 @@ public class Convert {
   /**
    * Will do the step needed to convert but first seperate into block.
    * O(((image_height/8)+1)*((image_width/8)+1)*4096)
+   * @params matrix, matrix d'entree
+   * @params block_size, la taille des bloc
+   * @params fq, facteur de qualité
    */
   public static void compress(
     int[][][] matrix,
@@ -518,6 +532,16 @@ public class Convert {
     return matrix;
   }
 
+  /**
+   * get_block_array, Va chercher le prochain bloc de l'image comprésser à
+   * traiter.
+   *
+   * @params v_size, la hauteur du bloc.
+   * @params h_size, la largeur du bloc.
+   * @return int[], le tableau du bloc à traiter.
+   *
+   * O(v_size*h_size)
+   */
   public static int[] get_block_array(int v_size, int h_size){
     int[] block=new int[(v_size*h_size)];
     int pos = 0;
