@@ -283,6 +283,7 @@ public class Convert {
               zCnt++;
             }else{
               Entropy.writeAC(zCnt, z_block[i]);
+              zCnt = 0;
             }
           }
           Entropy.writeAC(0,0);
@@ -571,13 +572,11 @@ public class Convert {
     block[pos] = Entropy.readDC();
     pos++;
     int[] AC;
-    int znb = 0;
     while((AC = Entropy.readAC())!=null){
       if(AC[0]==0&&AC[1]==0){
         break;
       }
-      int zd = AC[0] - znb;
-      znb += zd;
+      int zd = AC[0];
       for(
         int i=0;
         i < zd;
