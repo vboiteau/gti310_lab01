@@ -24,93 +24,93 @@ public class Convert {
     {99,99,99,99,99,99,99,99},
   };
 
-	/**
-	 * Convertir RGB a YCBCR
-	 *
-	 * La table de conversion a ete prise dans les notes de cours.
-	 *
-	 * @param matriceRVB
-	 * @return
-	 *
-	 * Complexite O(n^2)
-	 */
-	public static int[][][] convertRgbYcbcr (int[][][] matriceRVB) {
+  /**
+   * Convertir RGB a YCBCR
+   *
+   * La table de conversion a ete prise dans les notes de cours.
+   *
+   * @param matriceRVB
+   * @return
+   *
+   * Complexite O(n^2)
+   */
+  public static int[][][] convertRgbYcbcr (int[][][] matriceRVB) {
 
-		int Height = matriceRVB[0].length;
-		int Weight = matriceRVB[0][0].length;
+    int Height = matriceRVB[0].length;
+    int Weight = matriceRVB[0][0].length;
 
-		int [][][] matriceYcbcr = new int [Main.COLOR_SPACE_SIZE][Height][Weight];
+    int [][][] matriceYcbcr = new int [Main.COLOR_SPACE_SIZE][Height][Weight];
 
-		for (int i = 0; i < Height; i++) {
-			for (int j = 0; j < Weight; j++) {
+    for (int i = 0; i < Height; i++) {
+      for (int j = 0; j < Weight; j++) {
 
-				matriceYcbcr[Main.Y][i][j] = (int) Math.round(0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
-				matriceYcbcr[Main.U][i][j] = 128 + (int) Math.round((-0.169)*matriceRVB[Main.R][i][j] + (-0.331)*matriceRVB[Main.G][i][j] + 0.5*matriceRVB[Main.B][i][j]);
-				matriceYcbcr[Main.V][i][j] = 128 + (int) Math.round(0.5*matriceRVB [Main.R][i][j] +(-0.419)*matriceRVB [Main.G][i][j] +(-0.081)*matriceRVB [Main.B][j][j]);
+        matriceYcbcr[Main.Y][i][j] = (int) Math.round(0.299*matriceRVB [Main.R][i][j] + 0.587*matriceRVB [Main.G][i][j] + 0.114*matriceRVB [Main.B][i][j]);
+        matriceYcbcr[Main.U][i][j] = 128 + (int) Math.round((-0.169)*matriceRVB[Main.R][i][j] + (-0.331)*matriceRVB[Main.G][i][j] + 0.5*matriceRVB[Main.B][i][j]);
+        matriceYcbcr[Main.V][i][j] = 128 + (int) Math.round(0.5*matriceRVB [Main.R][i][j] +(-0.419)*matriceRVB [Main.G][i][j] +(-0.081)*matriceRVB [Main.B][j][j]);
 
         for(
-        int x=0;
-        x < Main.COLOR_SPACE_SIZE;
-        x++
-        ){
+            int x=0;
+            x < Main.COLOR_SPACE_SIZE;
+            x++
+           ){
           if(matriceYcbcr[x][i][j]<0){
             matriceYcbcr[x][i][j]=0;
           }
           if(matriceYcbcr[x][i][j]>255){
             matriceYcbcr[x][i][j]=255;
           }
-        }
-			}
-		}
+           }
+      }
+    }
 
-		return matriceYcbcr;
+    return matriceYcbcr;
 
-	}
-
-
-	/**
-	 * Convertir Ycbcr en format Rgb
-	 *
-	 * La table de conversion de ycbcr a rgb a ete prise sur le site
-	 * http://www.mir.com/DMG/ycbcr.html
-	 *
-	 * @param matriceYcbcr
-	 * @return
-	 *x
-	 * Complexite O(n^2)
-	 */
+  }
 
 
-	public static int[][][] convertYcbcrRgb (int[][][] matriceYcbcr) {
+  /**
+   * Convertir Ycbcr en format Rgb
+   *
+   * La table de conversion de ycbcr a rgb a ete prise sur le site
+   * http://www.mir.com/DMG/ycbcr.html
+   *
+   * @param matriceYcbcr
+   * @return
+   *x
+   * Complexite O(n^2)
+   */
 
-		int Height = matriceYcbcr[0].length;
-		int Weight = matriceYcbcr[0][0].length;
 
-		int [][][] matriceRGB = new int [Main.COLOR_SPACE_SIZE][Height][Weight];
+  public static int[][][] convertYcbcrRgb (int[][][] matriceYcbcr) {
 
-		for (int i = 0; i < Height; i++) {
-			for (int j = 0; j < Weight; j++) {
+    int Height = matriceYcbcr[0].length;
+    int Weight = matriceYcbcr[0][0].length;
 
-				matriceRGB[Main.R][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.400*(matriceYcbcr[Main.V][i][j]-128));
-				matriceRGB[Main.G][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +(-0.343)*(matriceYcbcr[Main.U][i][j]-128) +(-0.711)*(matriceYcbcr [Main.V][i][j]-128));
-				matriceRGB[Main.B][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.765*(matriceYcbcr[Main.U][i][j]-128));
+    int [][][] matriceRGB = new int [Main.COLOR_SPACE_SIZE][Height][Weight];
+
+    for (int i = 0; i < Height; i++) {
+      for (int j = 0; j < Weight; j++) {
+
+        matriceRGB[Main.R][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.400*(matriceYcbcr[Main.V][i][j]-128));
+        matriceRGB[Main.G][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +(-0.343)*(matriceYcbcr[Main.U][i][j]-128) +(-0.711)*(matriceYcbcr [Main.V][i][j]-128));
+        matriceRGB[Main.B][i][j] =(int)(1*matriceYcbcr [Main.Y][i][j] +1.765*(matriceYcbcr[Main.U][i][j]-128));
         for(
-          int x=0;
-          x < Main.COLOR_SPACE_SIZE;
-          x++
-        ){
+            int x=0;
+            x < Main.COLOR_SPACE_SIZE;
+            x++
+           ){
           if(matriceRGB[x][i][j]<0){
             matriceRGB[x][i][j]=0;
           }
           if(matriceRGB[x][i][j]>255){
             matriceRGB[x][i][j]=255;
           }
-        }
-			}
-		}
-		return matriceRGB;
+           }
+      }
+    }
+    return matriceRGB;
 
-	}
+  }
 
   /**
    * Décompresse le fichier comprésser à une matrice.
@@ -124,31 +124,31 @@ public class Convert {
    * O(((image_height/8)+1)*((image_width/8)+1)*4096)
    */
   public static int[][][] decompress(
-    int height,
-    int width,
-    int color_space,
-    int block_size,
-    int fq
-  ){
+      int height,
+      int width,
+      int color_space,
+      int block_size,
+      int fq
+      ){
     int number_vertical_blocks = (int) Math.ceil(height / block_size);
     int number_horizontal_blocks = (int) Math.ceil(width / block_size);
     int[][][] matrix=new int[color_space][height][width];
     int last_dc = 0;
     for(
-      int x = 0;
-      x < color_space;
-      x++
-    ){
+        int x = 0;
+        x < color_space;
+        x++
+       ){
       for(
-        int vertical_blocks_count = 0;
-        vertical_blocks_count < number_vertical_blocks;
-        vertical_blocks_count++
-      ){
+          int vertical_blocks_count = 0;
+          vertical_blocks_count < number_vertical_blocks;
+          vertical_blocks_count++
+         ){
         for(
-          int horizontal_blocks_count = 0;
-          horizontal_blocks_count < number_horizontal_blocks;
-          horizontal_blocks_count++
-        ){
+            int horizontal_blocks_count = 0;
+            horizontal_blocks_count < number_horizontal_blocks;
+            horizontal_blocks_count++
+           ){
           int vertical_offset = block_size;
           if((block_size * vertical_blocks_count)>height){
             vertical_offset = height % block_size;
@@ -175,20 +175,20 @@ public class Convert {
           }
           block = IDCT(block);
           for(
-            int y = 0;
-            y < vertical_offset;
-            y++
-          ){
+              int y = 0;
+              y < vertical_offset;
+              y++
+             ){
             int y_pos = y+(vertical_blocks_count*block_size);
             int x_pos = horizontal_blocks_count*block_size;
             //System.out.println(y_pos+" "+x_pos);
             System.arraycopy(block[y],0,matrix[x][y_pos],x_pos,horizontal_offset);
-          }
-        }
-      }
-    }
+             }
+           }
+         }
+       }
     return matrix;
-  }
+      }
 
   /**
    * Will do the step needed to convert but first seperate into block.
@@ -198,18 +198,18 @@ public class Convert {
    * @params fq, facteur de qualité
    */
   public static void compress(
-    int[][][] matrix,
-    int block_size,
-    int fq
-  ){
+      int[][][] matrix,
+      int block_size,
+      int fq
+      ){
     int number_variable_image = matrix.length;
     int[][] r_matrix=new int[matrix.length][];
     int last_dc = 0;
     for(
-      int x = 0;
-      x < number_variable_image;
-      x++
-    ){
+        int x = 0;
+        x < number_variable_image;
+        x++
+       ){
       int[][] pixels = matrix[x];
       int image_height = pixels.length;
       int image_width = pixels[0].length;
@@ -219,15 +219,15 @@ public class Convert {
         number_vertical_blocks*number_horizontal_blocks*block_size*block_size
       ];
       for(
-        int vertical_blocks_count = 0;
-        vertical_blocks_count < number_vertical_blocks;
-        vertical_blocks_count++
-      ){
+          int vertical_blocks_count = 0;
+          vertical_blocks_count < number_vertical_blocks;
+          vertical_blocks_count++
+         ){
         for(
-          int horizontal_blocks_count = 0;
-          horizontal_blocks_count < number_horizontal_blocks;
-          horizontal_blocks_count++
-        ){
+            int horizontal_blocks_count = 0;
+            horizontal_blocks_count < number_horizontal_blocks;
+            horizontal_blocks_count++
+           ){
           int vertical_offset = block_size;
           if((block_size * vertical_blocks_count)>image_height){
             vertical_offset = image_height % block_size;
@@ -238,19 +238,19 @@ public class Convert {
           }
           int[][] block_matrix= new int[vertical_offset][horizontal_offset];
           for(
-            int y = 0;
-            y < vertical_offset;
-            y++
-          ){
+              int y = 0;
+              y < vertical_offset;
+              y++
+             ){
             int y_pos = y + (vertical_blocks_count*block_size);
             System.arraycopy(
-              matrix[x][y_pos],
-              block_size*horizontal_blocks_count,
-              block_matrix[y],
-              0,
-              horizontal_offset
-            );
-          }
+                matrix[x][y_pos],
+                block_size*horizontal_blocks_count,
+                block_matrix[y],
+                0,
+                horizontal_offset
+                );
+             }
 
           block_matrix = DCT(block_matrix);
           if(fq<100){
@@ -275,23 +275,23 @@ public class Convert {
 
           int zCnt = 0;
           for(
-            int i=1;
-            i < z_block.length;
-            i++
-          ){
+              int i=1;
+              i < z_block.length;
+              i++
+             ){
             if(z_block[i]==0){
               zCnt++;
             }else{
               Entropy.writeAC(zCnt, z_block[i]);
               zCnt = 0;
             }
-          }
+             }
           Entropy.writeAC(0,0);
 
-        }
+           }
+         }
+       }
       }
-    }
-  }
 
   /**
    * transforme une matrix to dct.
@@ -301,8 +301,8 @@ public class Convert {
    Dernière visite 23 mars 2016.
    */
   public static int[][] DCT(
-    int[][] matrix
-  ){
+      int[][] matrix
+      ){
     double[] c = new double[matrix.length];
     for (int y=1;y<matrix.length;y++) {
       c[y]=1;
@@ -310,40 +310,40 @@ public class Convert {
     c[0]=1/Math.sqrt(2.0);
     int[][] temp_matrix = new int[matrix.length][matrix[0].length];
     for(
-      int u=0;
-      u < matrix.length;
-      u++
-    ){
+        int u=0;
+        u < matrix.length;
+        u++
+       ){
       for(
-        int v=0;
-        v < matrix[0].length;
-        v++
-      ){
+          int v=0;
+          v < matrix[0].length;
+          v++
+         ){
         double sum = 0.0;
         for(
-          int i = 0;
-          i < matrix.length;
-          i++
-        ){
+            int i = 0;
+            i < matrix.length;
+            i++
+           ){
           for(
-            int j = 0;
-            j < matrix[0].length;
-            j++
-          ){
+              int j = 0;
+              j < matrix[0].length;
+              j++
+             ){
             sum +=
               Math.cos(((2*i+1)/(2.0*matrix.length))*u*Math.PI)
               * Math.cos(((2*j+1)/(2.0*matrix[0].length))*v*Math.PI)
               * matrix
               [i]
               [j];
-          }
-        }
+             }
+           }
         sum *= ((c[u]*c[v])/4.0);
         temp_matrix[u][v] = (int)sum;
-      }
-    }
+         }
+       }
     return temp_matrix;
-  }
+      }
   /**
    * transforme une matrix sans dct.
    * @params matrix avec dct
@@ -352,8 +352,8 @@ public class Convert {
    Dernière visite 23 mars 2016.
    */
   public static int[][] IDCT(
-    int[][] matrix
-  ){
+      int[][] matrix
+      ){
     double[] c = new double[matrix.length];
     for (int y=1;y<matrix.length;y++) {
       c[y]=1;
@@ -361,34 +361,34 @@ public class Convert {
     c[0]=1/Math.sqrt(2.0);
     int[][] temp_matrix = new int[matrix.length][matrix[0].length];
     for(
-      int i=0;
-      i < matrix.length;
-      i++
-    ){
+        int i=0;
+        i < matrix.length;
+        i++
+       ){
       for(
-        int j=0;
-        j < matrix[0].length;
-        j++
-      ){
+          int j=0;
+          j < matrix[0].length;
+          j++
+         ){
         double sum = 0.0;
         for(
-          int u = 0;
-          u < matrix.length;
-          u++
-        ){
+            int u = 0;
+            u < matrix.length;
+            u++
+           ){
           for(
-            int v = 0;
-            v < matrix[0].length;
-            v++
-          ){
+              int v = 0;
+              v < matrix[0].length;
+              v++
+             ){
             sum += (c[u]*c[v])/4.0*Math.cos(((2*i+1)/(2.0*matrix.length))*u*Math.PI)*Math.cos(((2*j+1)/(2.0*matrix[0].length))*v*Math.PI)*matrix[u][v];
-          }
-        }
+             }
+           }
         temp_matrix[i][j] = (int)Math.round(sum);
-      }
-    }
+         }
+       }
     return temp_matrix;
-  }
+      }
 
   /**
    * Fonction qui transforme un bloc en un bloc compresser selon le facteur de compression.
@@ -399,10 +399,10 @@ public class Convert {
    * O(64)
    */
   public static int[][] Quantization(
-    int[][] matrix,
-    int fq,
-    boolean y
-  ){
+      int[][] matrix,
+      int fq,
+      boolean y
+      ){
     double a=0.0;
     if(fq < 50){
       a = 50.0/(double)fq;
@@ -410,22 +410,22 @@ public class Convert {
       a=((200.0-(2.0*(double)fq))/100.0);
     }
     for(
-      int i = 0;
-      i < matrix.length;
-      i++
-    ){
+        int i = 0;
+        i < matrix.length;
+        i++
+       ){
       for(
-        int j = 0;
-        j < matrix[i].length;
-        j++
-      ){
+          int j = 0;
+          j < matrix[i].length;
+          j++
+         ){
         int valeur = matrix[i][j];
         int q = (y ? Qy[i][j] : Qc[i][j]);
         matrix[i][j] = (int)Math.round(valeur/(a*q));
-      }
-    }
+         }
+       }
     return matrix;
-  }
+      }
 
   /**
    * Fonction qui transforme un bloc en un bloc decompresser selon le facteur de compression.
@@ -436,10 +436,10 @@ public class Convert {
    * O(64)
    */
   public static int[][] Dequantization(
-    int[][] matrix,
-    int fq,
-    boolean y
-  ){
+      int[][] matrix,
+      int fq,
+      boolean y
+      ){
     double a=0.0;
     if(fq < 50){
       a = 50.0/(double)fq;
@@ -447,22 +447,22 @@ public class Convert {
       a=((200.0-(2.0*(double)fq))/100.0);
     }
     for(
-      int i = 0;
-      i < matrix.length;
-      i++
-    ){
+        int i = 0;
+        i < matrix.length;
+        i++
+       ){
       for(
-        int j = 0;
-        j < matrix[i].length;
-        j++
-      ){
+          int j = 0;
+          j < matrix[i].length;
+          j++
+         ){
         int valeur = matrix[i][j];
         int q = (y ? Qy[i][j] : Qc[i][j]);
         matrix[i][j] = (int)Math.round(valeur*(a*q));
-      }
-    }
+         }
+       }
     return matrix;
-  }
+      }
 
   /**
    * Transforme une matrice en un tableau de façon zigzag.
@@ -473,18 +473,18 @@ public class Convert {
    * dernière visite 23 mars 2016.
    */
   public static int[] zigzag(
-    int[][] matrix
-  ){
+      int[][] matrix
+      ){
     int x_pos = 1;
     int y_pos = 1;
     int h_size = matrix[0].length;
     int v_size = matrix.length;
     int[] aZ = new int[h_size*v_size];
     for(
-      int i=0;
-      i < (h_size*v_size);
-      i++
-    ){
+        int i=0;
+        i < (h_size*v_size);
+        i++
+       ){
       aZ[i] = matrix[(y_pos-1)][(x_pos-1)];
       if((y_pos + x_pos) % 2 == 0){
         if(x_pos < h_size){
@@ -505,33 +505,33 @@ public class Convert {
           x_pos--;
         }
       }
-    }
+       }
     return aZ;
-  }
+      }
 
   /**
-  * Transforme un tableau en une matrice de façon zigzag.
-  * @params tableau, tableau à convetir
-  * @params h_size, la largeur de la matrice
-  * @params v_size, la hauteur de la matrice
-  * @return, matrice converti
-  * O(m*n)
-  * code inspiré de la page https://rosettacode.org/wiki/Zig-zag_matrix
-  * dernière visite 23 mars 2016.
-  */
+   * Transforme un tableau en une matrice de façon zigzag.
+   * @params tableau, tableau à convetir
+   * @params h_size, la largeur de la matrice
+   * @params v_size, la hauteur de la matrice
+   * @return, matrice converti
+   * O(m*n)
+   * code inspiré de la page https://rosettacode.org/wiki/Zig-zag_matrix
+   * dernière visite 23 mars 2016.
+   */
   public static int[][] izigzag(
-    int[] aZ,
-    int h_size,
-    int v_size
-  ){
+      int[] aZ,
+      int h_size,
+      int v_size
+      ){
     int x_pos = 1;
     int y_pos = 1;
     int[][] matrix = new int[v_size][h_size];
     for(
-      int i=0;
-      i < (h_size*v_size);
-      i++
-    ){
+        int i=0;
+        i < (h_size*v_size);
+        i++
+       ){
       matrix[(y_pos-1)][(x_pos-1)]=aZ[i];
       if((y_pos + x_pos) % 2 == 0){
         if(x_pos < h_size){
@@ -552,9 +552,9 @@ public class Convert {
           x_pos--;
         }
       }
-    }
+       }
     return matrix;
-  }
+      }
 
   /**
    * get_block_array, Va chercher le prochain bloc de l'image comprésser à
@@ -578,24 +578,24 @@ public class Convert {
       }
       int zd = AC[0];
       for(
-        int i=0;
-        i < zd;
-        i++
-      ){
+          int i=0;
+          i < zd;
+          i++
+         ){
         block[pos] = 0;
         pos++;
-      }
+         }
       block[pos] = AC[1];
       pos++;
     }
     for(
-      int i=0;
-      i < (pos-(v_size*h_size));
-      i++
-    ){
+        int i=0;
+        i < (pos-(v_size*h_size));
+        i++
+       ){
       block[pos] = 0;
       pos++;
-    }
+       }
     return block;
   }
 }

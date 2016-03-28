@@ -7,12 +7,12 @@ import src.tp4.Convert;
  */
 public class Test {
 
-	/**
-	 * Cette fonction est la fonction d'entrée des tests.
-	 *
-	 * @param args, devrais être null.
-	 */
-	public static void main(String[] args) {
+  /**
+   * Cette fonction est la fonction d'entrée des tests.
+   *
+   * @param args, devrais être null.
+   */
+  public static void main(String[] args) {
     long start=System.nanoTime();
     System.out.println("Le programme est le testeur pour lab04.");
     Test();
@@ -23,7 +23,7 @@ public class Test {
     runtime.gc();
     long memory = runtime.totalMemory() - runtime.freeMemory();
     System.out.println("L'usage de mémoire par le programme est de "+memory+" octets ou "+(memory/1024L)+" ko ou "+(memory/(1024L*1024L))+" mo.");
-	}
+  }
 
   /**
    * Cette classe est le test de DCT.
@@ -118,15 +118,15 @@ public class Test {
 
     System.out.print("\n{ ");
     for(
-      int i = 0;
-      i < aCZ.length;
-      i++
-    ){
+        int i = 0;
+        i < aCZ.length;
+        i++
+       ){
       System.out.print(aCZ[i]);
       if(i<(aCZ.length-1)){
         System.out.print(", ");
       }
-    }
+       }
     System.out.print(" }\n\n");
 
     int[][] iZ = Convert.izigzag(aZ,8,8);
@@ -134,23 +134,23 @@ public class Test {
     System.out.println("{");
 
     for(
-      int i = 0;
-      i < iZ.length;
-      i++
-    ){
+        int i = 0;
+        i < iZ.length;
+        i++
+       ){
       System.out.print("\t{ ");
       for(
-        int j=0;
-        j < iZ[i].length;
-        j++
-      ){
+          int j=0;
+          j < iZ[i].length;
+          j++
+         ){
         System.out.print(iZ[i][j]);
         if(j<(iZ[i].length-1)){
           System.out.print(", ");
         }
-      }
+         }
       System.out.print(" },\n");
-    }
+       }
     System.out.print("}\n\n");
 
     System.out.println("Printing the byte output:");
@@ -159,42 +159,42 @@ public class Test {
     byte[] output = Entropy.getBitstream();
     System.out.print("{ ");
     for(
-      int i = 0;
-      i < output.length;
-      i++
-    ){
+        int i = 0;
+        i < output.length;
+        i++
+       ){
       System.out.print(output[i]);
       if(i<(output.length-1)){
         System.out.print(", ");
       }
-    }
+       }
     System.out.print(" }\n\n\n");
     int zCnt = 0;
     for(
-      int i=1;
-      i < aZ.length;
-      i++
-    ){
+        int i=1;
+        i < aZ.length;
+        i++
+       ){
       if(aZ[i]==0){
         zCnt++;
       }else{
         Entropy.writeAC(zCnt, aZ[i]);
       }
-    }
+       }
     Entropy.writeAC(0,0);
 
     output = Entropy.getBitstream();
     System.out.print("{ ");
     for(
-    int i = 0;
-    i < output.length;
-    i++
-    ){
+        int i = 0;
+        i < output.length;
+        i++
+       ){
       System.out.print(output[i]);
       if(i<(output.length-1)){
         System.out.print(", ");
       }
-    }
+       }
     System.out.print(" }\n\n\n");
 
     Entropy.loadBitstream(output);
@@ -202,15 +202,15 @@ public class Test {
     int[] block = Convert.get_block_array(block_size, block_size);
     System.out.print("{ ");
     for(
-      int i = 0;
-      i < block.length;
-      i++
-    ){
+        int i = 0;
+        i < block.length;
+        i++
+       ){
       System.out.print(block[i]);
       if(i<(block.length-1)){
         System.out.print(", ");
       }
-    }
+       }
     System.out.print(" }\n\n");
   }
 }

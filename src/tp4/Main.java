@@ -8,60 +8,60 @@ import src.tp4.PPMReaderWriter;
  * into PPM format. It is the implementation of the simplified JPEG block
  * diagrams.
  *
- * @author Fran�ois Caron
+ * @author François Caron
  */
 public class Main {
 
-	/*
-	 * The entire application assumes that the blocks are 8x8 squares.
-	 */
-	public static final int BLOCK_SIZE = 8;
+  /*
+   * The entire application assumes that the blocks are 8x8 squares.
+   */
+  public static final int BLOCK_SIZE = 8;
 
-	/*
-	 * The number of dimensions in the color spaces.
-	 */
-	public static final int COLOR_SPACE_SIZE = 3;
+  /*
+   * The number of dimensions in the color spaces.
+   */
+  public static final int COLOR_SPACE_SIZE = 3;
 
-	/*
-	 * The RGB color space.
-	 */
-	public static final int R = 0;
-	public static final int G = 1;
-	public static final int B = 2;
+  /*
+   * The RGB color space.
+   */
+  public static final int R = 0;
+  public static final int G = 1;
+  public static final int B = 2;
 
-	/*
-	 * The YUV color space.
-	 */
-	public static final int Y = 0;
-	public static final int U = 1;
-	public static final int V = 2;
+  /*
+   * The YUV color space.
+   */
+  public static final int Y = 0;
+  public static final int U = 1;
+  public static final int V = 2;
 
-	/**
-	 * The application's entry point.
-	 *
-	 * @param args
-	 */
-	public static void main(String[] args) {
+  /**
+   * The application's entry point.
+   *
+   * @param args
+   */
+  public static void main(String[] args) {
     long start=System.nanoTime();
     if(args.length>=2){
-        if(args.length>2){
-          String in_file_path=args[1];
-          int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
-          if(matrix!=null){
-            int fq=Integer.parseInt(args[0]);
-            if(
+      if(args.length>2){
+        String in_file_path=args[1];
+        int[][][] matrix = PPMReaderWriter.readPPMFile(in_file_path);
+        if(matrix!=null){
+          int fq=Integer.parseInt(args[0]);
+          if(
               1>fq &&
               fq<100
             ){
-              System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
-              System.exit(1);
+            System.out.println("Le facteur de qualité n'est pas entre 1 et 100 inclus comme demandé.");
+            System.exit(1);
             }
-            int height = matrix[0].length;
-            int width = matrix[0][0].length;
-            matrix = Convert.convertRgbYcbcr(matrix);
-            Convert.compress(matrix, BLOCK_SIZE, fq);
+          int height = matrix[0].length;
+          int width = matrix[0][0].length;
+          matrix = Convert.convertRgbYcbcr(matrix);
+          Convert.compress(matrix, BLOCK_SIZE, fq);
 
-            SZLReaderWriter.writeSZLFile(args[2], height, width, fq);
+          SZLReaderWriter.writeSZLFile(args[2], height, width, fq);
         }else{
           System.out.println("Input file can't be open.");
         }
@@ -98,5 +98,5 @@ public class Main {
     runtime.gc();
     long memory = runtime.totalMemory() - runtime.freeMemory();
     System.out.println("L'usage de mémoire par le programme est de "+memory+" octets ou "+(memory/1024L)+" ko ou "+(memory/(1024L*1024L))+" mo.");
-	}
+  }
 }
