@@ -179,6 +179,7 @@ public class Test {
         zCnt++;
       }else{
         Entropy.writeAC(zCnt, aZ[i]);
+        zCnt=0;
       }
        }
     Entropy.writeAC(0,0);
